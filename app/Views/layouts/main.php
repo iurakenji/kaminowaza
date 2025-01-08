@@ -54,7 +54,7 @@
                         <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0">
                             <li>
                                 <a href="/" class="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 md:dark:text-blue-500" aria-current="page">
-                                    InÃ­cio
+                                    Iní­cio
                                 </a>
                             </li>
                             <li>
@@ -74,7 +74,7 @@
                             </li>
                             <li>
                                 <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                                    HorÃ¡rios
+                                    Horários
                                 </a>
                             </li>
                             <li>
@@ -89,7 +89,7 @@
                             </li>
                             <li>
                                 <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                                    UsuÃ¡rios
+                                    Usuários
                                 </a>
                             </li>
                             <li>
@@ -103,7 +103,7 @@
             </nav>
         </header>
 
-        <main class="flex-grow pt-30">
+        <main class="flex-grow pt-30" style="margin-top: 8vh;">
             <?php if (session()->has('errors')): ?>
                 <?php foreach (session('errors') as $error): ?>
                     <div id="alert-border-2" class="flex items-center p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800" role="alert">
@@ -139,7 +139,7 @@
                     </div>
             <?php endif; ?>
 
-            <div id="popup-confirm" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div id="popup-confirm" data-modal-target="popup-confirm" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <div class="relative p-4 w-full max-w-md max-h-full">
                     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-confirm">
@@ -151,8 +151,8 @@
                         <div class="p-4 md:p-5 text-center">
                             <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                            </svg>ATENÃ‡Ã‚O!
-                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Esta aÃ§Ã£o nÃ£o poderÃ¡ ser desfeita. Deseja mesmo prosseguir?</h3>
+                            </svg>ATENÇÃO!
+                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Esta açãoo não poderá ser desfeita. Deseja mesmo prosseguir?</h3>
                             <button data-modal-hide="popup-confirm" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                 Confirmar
                             </button>
@@ -173,13 +173,13 @@
                                     Data
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    OcorrÃªncia Inserida
+                                    Ocorrência Inserida
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    OcorrÃªncia em Conflito
+                                    Ocorrência em Conflito
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    OcorrÃªncia a ser mantida
+                                    Ocorrência a ser mantida
                                 </th>
                             </tr>
                         </thead>
@@ -217,7 +217,7 @@
                 </div>
             </div>   
 
-        </main>
+    </main>
 
     <footer class="px-1 bg-gradient-to-r to-teal-400 via-teal-700 from-teal-800 shadow-teal-600/20 dark:shadow-lg dark:shadow-teal-800/80 border-t border-gray-200 text-xs text-gray-200 dark:text-gray-400 text-center">
         <?php if (ENVIRONMENT === 'development') : ?>
@@ -231,51 +231,53 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script>
-        const alerts = document.querySelectorAll('#alert-border-3, #alert-border-2');
-        alerts.forEach((elemento) => {
-            setTimeout(() => {
-                if (elemento) {
-                    elemento.style.display = 'none';
-                }
-            }, 5000);   
-        });
+        document.addEventListener("DOMContentLoaded", function() {
+            const alerts = document.querySelectorAll('#alert-border-3, #alert-border-2');
+            alerts.forEach((elemento) => {
+                setTimeout(() => {
+                    if (elemento) {
+                        elemento.style.display = 'none';
+                    }
+                }, 5000);   
+            });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const staticModal = document.getElementById('static-modal');
-            const closeButton = staticModal.querySelector('button');
-            const deleteButtons = document.querySelectorAll(".delete_button");
-            const modal = document.getElementById("popup-confirm");
-            const confirmButton = modal.querySelector("button.text-white.bg-red-600");
-            let currentHref = null;
+            document.addEventListener("DOMContentLoaded", function () {
+                const staticModal = document.getElementById('static-modal');
+                const closeButton = staticModal.querySelector('button');
+                const deleteButtons = document.querySelectorAll(".delete_button");
+                const modal = document.getElementById("popup-confirm");
+                const confirmButton = modal.querySelector("button.text-white.bg-red-600");
+                let currentHref = null;
 
-            closeButton.addEventListener('click', function () {
-                staticModal.classList.add('hidden');
-            });  
+                closeButton.addEventListener('click', function () {
+                    staticModal.classList.add('hidden');
+                });  
 
-            <?php if (empty($conflitos)) : ?>                
-                staticModal.classList.remove('hidden');
-            <?php endif; ?>
+                <?php if (empty($conflitos)) : ?>                
+                    staticModal.classList.remove('hidden');
+                <?php endif; ?>
 
-            deleteButtons.forEach(button => {
-                button.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    currentHref = this.href;
-                    modal.classList.remove("hidden");
+                deleteButtons.forEach(button => {
+                    button.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        currentHref = this.href;
+                        modal.classList.remove("hidden");
+                    });
+                });
+
+                confirmButton.addEventListener("click", function () {
+                    if (currentHref) {
+                        window.location.href = currentHref;
+                    }
+                });
+
+                modal.querySelectorAll("[data-modal-hide]").forEach(button => {
+                    button.addEventListener("click", function () {
+                        modal.classList.add("hidden");
+                    });
                 });
             });
-
-            confirmButton.addEventListener("click", function () {
-                if (currentHref) {
-                    window.location.href = currentHref;
-                }
-            });
-
-            modal.querySelectorAll("[data-modal-hide]").forEach(button => {
-                button.addEventListener("click", function () {
-                    modal.classList.add("hidden");
-                });
-            });
-        });
+        });        
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>

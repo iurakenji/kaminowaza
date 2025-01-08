@@ -15,7 +15,7 @@ class AuthService
     {
         $user = db_connect()->table('users')
             ->where('username', $username)
-            ->where('password', md5($password))
+            ->where('password', hash('sha256', $password))
             ->get()
             ->getRow();
 

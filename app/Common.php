@@ -16,6 +16,18 @@ use Kint\Kint;
  * @see: https://codeigniter.com/user_guide/extending/common.html
  */
 
+ const COORDENADAS = [
+    'development1' => [
+      -27.623414700701233, -48.6702291774703
+    ],
+    'development2' => [
+      -27.60032761141091, -48.51536939208439
+    ],
+    'dojo' => [
+      -27.70348341322536, -48.50627429696752
+    ],
+   ];
+
  const GRADUACOES = [
     'VII' => '7º Kyu',
     'VI' => '6º Kyu',
