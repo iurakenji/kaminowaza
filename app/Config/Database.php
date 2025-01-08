@@ -26,11 +26,11 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'mysql.kaminowazadojo.kinghost.net',
-        'username'     => 'kaminowazadojo',
-        'password'     => 'M0riheiUeshiba',
-        'database'     => 'kaminowazadojo',
-        'DBDriver'     => 'mysqli',
+        'hostname'     => 'localhost',
+        'username'     => '',
+        'password'     => '',
+        'database'     => '',
+        'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
         'DBDebug'      => true,

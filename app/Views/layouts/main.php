@@ -33,18 +33,28 @@
 
         </style>
     </head>
-    <body class="bg-gray-100 rocknroll-one-regular w-auto h-screen">
-        <header class="p-4 flex items-center justify-between">
-            <nav class="bg-gradient-to-r to-teal-500 via-teal-700 from-teal-800 shadow-lg shadow-teal-600/20 dark:shadow-lg dark:shadow-teal-800/80  fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-                <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
-                    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse -ms-60">
-                        <img loading="lazy" decoding="async" src="https://institutosergiomurilo.com.br/wp-content/uploads/2020/08/dojo-min.png" class="h-24" alt="Flowbite Logo">
-                    </a>
-                    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 ">
+
+    <body class="bg-gray-100 rocknroll-one-regular w-screen min-h-screen flex flex-col">
+        <header class="p-4 w-full bg-gray-200">
+            <nav class="bg-gradient-to-r to-teal-500 via-teal-700 from-teal-800 shadow-lg shadow-teal-600/20 dark:shadow-lg dark:shadow-teal-800/80 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+                <div class="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-3">
+                    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <img loading="lazy" decoding="async" src="https://institutosergiomurilo.com.br/wp-content/uploads/2020/08/dojo-min.png" 
+                         class="h-12 sm:h-16" alt="Logo">
+                </a>
+
+<button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-white rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                    </svg>
+                </button>
+
+                    <div class="hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0">
                             <li>
                                 <a href="/" class="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 md:dark:text-blue-500" aria-current="page">
-                                    Início
+                                    InÃ­cio
                                 </a>
                             </li>
                             <li>
@@ -64,7 +74,7 @@
                             </li>
                             <li>
                                 <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                                    Horários
+                                    HorÃ¡rios
                                 </a>
                             </li>
                             <li>
@@ -79,7 +89,7 @@
                             </li>
                             <li>
                                 <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                                    Usuários
+                                    UsuÃ¡rios
                                 </a>
                             </li>
                             <li>
@@ -93,7 +103,7 @@
             </nav>
         </header>
 
-        <main class="mt-28">
+        <main class="flex-grow pt-30">
             <?php if (session()->has('errors')): ?>
                 <?php foreach (session('errors') as $error): ?>
                     <div id="alert-border-2" class="flex items-center p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800" role="alert">
@@ -141,8 +151,8 @@
                         <div class="p-4 md:p-5 text-center">
                             <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                            </svg>ATENÇÂO!
-                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Esta ação não poderá ser desfeita. Deseja mesmo prosseguir?</h3>
+                            </svg>ATENÃ‡Ã‚O!
+                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Esta aÃ§Ã£o nÃ£o poderÃ¡ ser desfeita. Deseja mesmo prosseguir?</h3>
                             <button data-modal-hide="popup-confirm" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                 Confirmar
                             </button>
@@ -163,13 +173,13 @@
                                     Data
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Ocorrência Inserida
+                                    OcorrÃªncia Inserida
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Ocorrência em Conflito
+                                    OcorrÃªncia em Conflito
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Ocorrência a ser mantida
+                                    OcorrÃªncia a ser mantida
                                 </th>
                             </tr>
                         </thead>
@@ -209,17 +219,17 @@
 
         </main>
 
-        <footer class="fixed bottom-0 left-0 z-20 w-full px-1 bg-gradient-to-r to-teal-400 via-teal-700 from-teal-800 shadow-teal-600/20 dark:shadow-lg dark:shadow-teal-800/80 border-t border-gray-200 md:flex-col md:items-center md:justify-between md:p-3 dark:bg-gray-800 dark:border-gray-600">
-            <?php if (ENVIRONMENT === 'development') : ?>
-                <div class="text-xs bg-stone-700 text-red-500 p-2 text-center">
-                    <p>Página renderizada em {elapsed_time} segundos usando {memory_usage} MB de memória. - Ambiente: <?= ENVIRONMENT ?></p>
-                </div>
-            <?php endif; ?>    
-            <div class="text-xs text-gray-200 dark:text-gray-400 text-center">© <?= date('Y') ?> Kaminowaza Dojo - Logado como: <strong><?= 'Usuário aqui' ?></strong></a>. Todos os direitos reservados.
+    <footer class="px-1 bg-gradient-to-r to-teal-400 via-teal-700 from-teal-800 shadow-teal-600/20 dark:shadow-lg dark:shadow-teal-800/80 border-t border-gray-200 text-xs text-gray-200 dark:text-gray-400 text-center">
+        <?php if (ENVIRONMENT === 'development') : ?>
+            <div class="bg-stone-700 text-red-500 p-2">
+                <p>Página renderizada em {elapsed_time} segundos usando {memory_usage} MB de memória. - Ambiente: <?= ENVIRONMENT ?></p>
             </div>
+        <?php endif; ?>    
+        <div>© <?= date('Y') ?> Kaminowaza Dojo - Logado como: <strong><?= 'Usuário' ?></strong>. Todos os direitos reservados.</div>
+    </footer>
 
-        </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script>
         const alerts = document.querySelectorAll('#alert-border-3, #alert-border-2');
         alerts.forEach((elemento) => {
