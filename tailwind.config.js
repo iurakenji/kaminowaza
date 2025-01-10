@@ -8,7 +8,12 @@ module.exports = {
     "./node_modules/flowbite/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+          job: '#ab9b6a',
+          jobHover: '#C9BC95AF',
+      },
+    },
   },
   plugins: [
     require('flowbite/plugin')({

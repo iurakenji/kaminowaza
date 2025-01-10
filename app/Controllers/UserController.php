@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\RedirectResponse;
 use Exception;
@@ -61,7 +60,8 @@ class UserController extends BaseController
 
         if (empty($errors)) {
             if ($isEdit) {
-                unset($data['password']);
+                // unset($data['password']);
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                 $data['updated_at'] = date('Y-m-d H:i:s');
                 $userModel->update($id, $data);                
             } else {

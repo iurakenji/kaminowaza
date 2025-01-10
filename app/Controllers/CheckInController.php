@@ -26,7 +26,7 @@ class CheckInController extends BaseController
         $location = $_ENV['LOCATION'];
         $location = COORDENADAS[$location];
         
-
+        //Implementar checagem secundária (backend) da localização
 
         $checkInModel = model(CheckInModel::class);
         $user = session()->get('user');
@@ -35,7 +35,7 @@ class CheckInController extends BaseController
         $data['hora_checkin'] = date('Y-m-d H:i:s', time());
         $checkExist = $checkInModel->select('*')->where('ocorrencia_id', $data['ocorrencia_id'])->where('user_id', $user['id'])->first();
         if (!empty($checkExist)) {
-            return redirect()->back()->withInput()->with('errors', ['Check in já realizado para este evento.']);
+            return redirect()->back()->withInput()->with('senhaIncorreta', [true]);
         }
         $checkInModel->insert($data);
         return redirect()->to('/checkin')->with('success', 'Check in realizado com sucesso!');
@@ -46,7 +46,7 @@ class CheckInController extends BaseController
         $location = $_ENV['LOCATION'];
         $location = COORDENADAS[$location];
         return $location;
-
+    }
 
 
 }

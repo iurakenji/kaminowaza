@@ -4,6 +4,7 @@ namespace Config;
 
 use CodeIgniter\Config\BaseService;
 use App\Services\AuthService;
+use App\Services\ThemeService;
 
 /**
  * Services Configuration file.
@@ -38,5 +39,14 @@ class Services extends BaseService
         }
 
         return new AuthService();
+    }
+
+    public static function theme($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('theme');
+        }
+
+        return new ThemeService();
     }
 }

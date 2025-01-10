@@ -15,14 +15,15 @@ class AuthService
     {
         $user = db_connect()->table('users')
             ->where('username', $username)
-            ->where('password', hash('sha256', $password))
             ->get()
             ->getRow();
 
-        if ($user) {
+        if ($user && password_verify($password, $user->password)) {
             $this->session->set('user', [
                 'id' => $user->id,
                 'username' => $user->username,
+                'nome' => $user->nome,
+                'tipo' => $user->tipo,
             ]);
             return true;
         }
