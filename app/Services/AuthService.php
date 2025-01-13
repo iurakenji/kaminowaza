@@ -24,6 +24,7 @@ class AuthService
                 'username' => $user->username,
                 'nome' => $user->nome,
                 'tipo' => $user->tipo,
+                'email' => $user->email
             ]);
             return true;
         }
