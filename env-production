@@ -31,22 +31,22 @@ CI_ENVIRONMENT = production
 # DATABASE
 #--------------------------------------------------------------------
 
- database.default.hostname = mysql.kaminowazadojo.kinghost.net
- database.default.database = kaminowazadojo
- database.default.username = kaminowazadojo
- database.default.password = M0riheiUeshiba
- database.default.DBDriver = MySQLi
- database.default.DBPrefix =
- database.default.port = 3306
+# database.default.hostname = ''
+# database.default.database = ''
+# database.default.username = ''
+# database.default.password = ''
+# database.default.DBDriver = MySQLi
+# database.default.DBPrefix =
+# database.default.port = 3306
 
 //local
-#  database.default.hostname = localhost
-#  database.default.database = kaminowaza
-#  database.default.username = root
-#  database.default.password = root
-#  database.default.DBDriver = MySQLi
-#  database.default.DBPrefix =
-#  database.default.port = 3306
+database.default.hostname = localhost
+database.default.database = kaminowaza
+database.default.username = root
+database.default.password = root
+database.default.DBDriver = MySQLi
+database.default.DBPrefix =
+database.default.port = 3306
 
 # If you use MySQLi as tests, first update the values of Config\Database::$tests.
 # database.tests.hostname = localhost
