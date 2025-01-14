@@ -6,14 +6,17 @@
 - [x] Criar sistema de Checkin
 - [ ] Componentizar estruturas de frontend
 - [ ] Criar sistema de verificação de localização no Checkin
-- [ ] Criar tela "Normas do Dojo"
+- [x] Criar tela "Normas do Dojo"
 - [x] Criar tela "Tipos de Pagamentos"
-- [ ] Criar tela "Pagamentos"
+- [x] Criar tela "Pagamentos"
+  - [ ] Rever validação campos
 - [ ] Criar tela "Registros de Pagamentos"
-- [ ] Adicionar imagens à tela de usuários
+- [x] Adicionar imagens à tela de usuários
 - [ ] Criar tela "Trajetória"
+- [ ] Finalizar verificação de conflitos
 - [ ] Criar tela "Graduacoes"
-- [ ] Criar tela "Técnicas"
+- [x] Criar tela "Técnicas"
+  - [ ] Fazer os vídeos com "embedding"
 - [ ] Criar tela "Requisitos"
 - [ ] Registros de Exames de Faixa
 - [ ] Relatório de Frequência

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PagamentoModel extends Model
+class GraduacaoModel extends Model
 {
-    protected $table            = 'pagamentos';
+    protected $table            = 'graduacoes';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -15,15 +15,9 @@ class PagamentoModel extends Model
     protected $allowedFields    = [
         'id',
         'nome',
-        'tipo_pagamento_id',
-        'valor',
-        'recorrente',
-        'periodo_recorrencia',
-        'dia_vencimento',
-        'inicio_vigencia',
-        'fim_vigencia',
-        'contrato_id',
-        'created_at',
+        'cor_faixa',
+        'valor_exame',
+        'cor'
     ];
 
     protected bool $allowEmptyInserts = false;

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class NormasModel extends Model
+class NormaModel extends Model
 {
     protected $table            = 'normas';
     protected $primaryKey       = 'id';
@@ -12,7 +12,12 @@ class NormasModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id',
+        'nome',
+        'descricao',
+        'image_path',
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

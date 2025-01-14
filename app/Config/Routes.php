@@ -3,12 +3,14 @@
 use App\Controllers\Home;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
+use App\Controllers\NormaController;
 use App\Controllers\ConfigController;
 use App\Controllers\EventoController;
-use App\Controllers\NormasController;
 use App\Controllers\TreinoController;
 use App\Controllers\CheckInController;
+use App\Controllers\TecnicaController;
 use CodeIgniter\Router\RouteCollection;
+use App\Controllers\GraduacaoController;
 use App\Controllers\PagamentoController;
 use App\Controllers\FinanceiroController;
 use App\Controllers\RelatoriosController;
@@ -66,12 +68,29 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->POST('pagamento/save/(:num)', [PagamentoController::class, 'save']);
     $routes->POST('pagamento/save/', [PagamentoController::class, 'save']);
 
-    $routes->GET('normas', [NormasController::class, 'index']);
-    $routes->GET('normas/create', [NormasController::class, 'create']);
-    $routes->GET('normas/edit/(:num)', [NormasController::class, 'edit']);
-    $routes->GET('normas/delete/(:num)', [NormasController::class, 'delete']);
-    $routes->POST('normas/save/(:num)', [NormasController::class, 'save']);
-    $routes->POST('normas/save/', [NormasController::class, 'save']);
+    $routes->GET('norma', [NormaController::class, 'index']);
+    $routes->GET('norma/list', [NormaController::class, 'list']);
+    $routes->GET('norma/create', [NormaController::class, 'create']);
+    $routes->GET('norma/edit/(:num)', [NormaController::class, 'edit']);
+    $routes->GET('norma/delete/(:num)', [NormaController::class, 'delete']);
+    $routes->POST('norma/save/(:num)', [NormaController::class, 'save']);
+    $routes->POST('norma/save/', [NormaController::class, 'save']);
+
+    $routes->GET('tecnica', [TecnicaController::class, 'index']);
+    $routes->GET('tecnica/list', [TecnicaController::class, 'list']);
+    $routes->GET('tecnica/create', [TecnicaController::class, 'create']);
+    $routes->GET('tecnica/edit/(:num)', [TecnicaController::class, 'edit']);
+    $routes->GET('tecnica/delete/(:num)', [TecnicaController::class, 'delete']);
+    $routes->POST('tecnica/save/(:num)', [TecnicaController::class, 'save']);
+    $routes->POST('tecnica/save/', [TecnicaController::class, 'save']);
+
+    $routes->GET('graduacao', [GraduacaoController::class, 'index']);
+    $routes->GET('graduacao/list', [GraduacaoController::class, 'list']);
+    $routes->GET('graduacao/create', [GraduacaoController::class, 'create']);
+    $routes->GET('graduacao/edit/(:num)', [GraduacaoController::class, 'edit']);
+    $routes->GET('graduacao/delete/(:num)', [GraduacaoController::class, 'delete']);
+    $routes->POST('graduacao/save/(:num)', [GraduacaoController::class, 'save']);
+    $routes->POST('graduacao/save/', [GraduacaoController::class, 'save']);
 
     $routes->GET('relatorios', [RelatoriosController::class, 'index']);
 });

@@ -38,6 +38,7 @@ class UserController extends BaseController
         $userModel = model(UserModel::class);
         $request = $this->request;
         $validation = service('validation');
+        $image = $this->request->getFile('image_path');
         if ($request->getMethod() === 'POST') {
             $data = $request->getPost();
         }
@@ -59,9 +60,21 @@ class UserController extends BaseController
         $errors = $validation->getErrors();
 
         if (empty($errors)) {
+            if ($image->isValid() && !$image->hasMoved()) {
+                if ($isEdit) {
+                    $user = $userModel->find($id);
+                    if (!empty($data['image_path'])) {
+                        $image_path = $user['image_path'];
+                        if (file_exists('images/users/'.$image_path) && is_file('images/users/'.$image_path)) {
+                            unlink('images/users/'.$image_path);   
+                        }  
+                        $newName = $image->getRandomName();
+                        $image->move('images/users', $newName);
+                        $data['image_path'] = $newName;
+                    }
+                }
+            }
             if ($isEdit) {
-                // unset($data['password']);
-                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                 $data['updated_at'] = date('Y-m-d H:i:s');
                 $userModel->update($id, $data);                
             } else {

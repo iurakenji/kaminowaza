@@ -30,6 +30,7 @@ class UserModel extends Model
         'telefone',
         'graduacao',
         'inicio_treinos',
+        'image_path',
     ];
 
     protected bool $allowEmptyInserts = false;

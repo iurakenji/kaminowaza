@@ -25,9 +25,9 @@ class TipoPagamentoController extends BaseController
 
     public function edit($id): string
     {
-        $eventoModel = model(TipoPagamentoModel::class);
+        $tipoPagamentoModel = model(TipoPagamentoModel::class);
         $title = 'Editar Tipo de Pagamento';
-        $tipoPagamento = $eventoModel->find($id);
+        $tipoPagamento = $tipoPagamentoModel->find($id);
         return view('tipo_pagamento/create-edit', ['title' => $title, 'tipoPagamento' => $tipoPagamento]);
     }
 

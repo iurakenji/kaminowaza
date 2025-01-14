@@ -22,15 +22,15 @@
 
     <body class="bg-gray-100 rocknroll-one-regular w-screen min-h-screen flex flex-col">
         <header class="p-4 w-full bg-gray-200">
-            <?= view_cell('NavBarCell', 'user=sim') ?>
+            <?= view_cell('NavBarCell') ?>
         </header>
 
-        <main class="flex-grow pt-30" style="margin-top: 8vh;">
+        <main class="flex-grow mt-16">
             <?php if (session()->has('errors')): ?>
                 <?php foreach (session('errors') as $error): ?>
                     <div id="alert-border-2" class="flex items-center p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800" role="alert">
                         <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                         </svg>
                         <div class="ms-3 text-sm font-medium">
                             <?= $error ?>
@@ -134,7 +134,7 @@
         <?php endif; ?>
 
             <div class="h-auto">
-                <h1 class="mx-10 mt-2 mb-4 pb-3 text-4xl leading-none tracking-tight border-b-2 border-gray-400 text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><?=$title?></h1>
+                <h1 class="mx-10 mt-2 mb-4 pb-3 text-4xl leading-none tracking-tight border-b-2 border-gray-400 text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><?=isset($title) ? $title : ''?></h1>
                 <div class="flex flex-col">
                     <?= $this->renderSection('content') ?>
                 </div>
