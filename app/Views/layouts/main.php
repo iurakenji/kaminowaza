@@ -23,7 +23,7 @@ use App\Services\AuthService;
         <header class="p-4 w-full bg-gray-200">
             <nav class="bg-gradient-to-r <?= $theme['colors'] ?> shadow-lg dark:shadow-lg fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
                 <div class="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-3">
-                    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <a href="/home" class="flex items-center space-x-3 rtl:space-x-reverse">
                         <img loading="lazy" decoding="async" src="<?= $theme['logo'] ?>" 
                             class="h-12 sm:h-16" alt="Logo">
                     </a>
@@ -35,50 +35,50 @@ use App\Services\AuthService;
                     </svg>
                 </button>
 
-                    <div class="hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0">
+                    <div class="hidden w-full md:flex md:w-auto md:order-1 mb-1" id="navbar-sticky">
+                        <ul class="flex flex-col p-4 md:p-0 mt-4  lg:text-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0">
                             <li>
-                                <a href="/" class="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 md:dark:text-blue-500" aria-current="page">
+                                <a href="/" class="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 md:dark:text-gray-500" aria-current="page">
                                     Iní­cio
                                 </a>
                             </li>
                             <li>
-                                <a href="/treino" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                <a href="/treino" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                                     Treinos
                                 </a>
                             </li>
                             <li>
-                                <a href="/evento" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                <a href="/evento" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                                     Eventos
                                 </a>
                             </li>
                             <li>
-                                <a href="/checkin" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                <a href="/checkin" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                                     Check In
                                 </a>
                             </li>
                             <li>
-                                <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                                    Horários
+                                <a href="/agenda" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Agenda
                                 </a>
                             </li>
                             <li>
-                                <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                                     Normas do Dojo
                                 </a>
                             </li>
                             <li>
-                                <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                                     Financeiro
                                 </a>
                             </li>
                             <li>
-                                <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                                     Usuários
                                 </a>
                             </li>
                             <li>
-                                <a href="/logout" class="block py-2 px-3 text-gray-500 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                <a href="/logout" class="block py-2 px-3 text-gray-400 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                                     Sair
                                 </a>
                             </li>
@@ -88,7 +88,7 @@ use App\Services\AuthService;
             </nav>
         </header>
 
-        <main class="flex-grow pt-30" style="margin-top: 8vh;">
+        <main class="flex-grow pt-30 mt-16">
             <?php if (session()->has('errors')): ?>
                 <?php foreach (session('errors') as $error): ?>
                     <div id="alert-border-2" class="flex items-center p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800" role="alert">
@@ -196,7 +196,8 @@ use App\Services\AuthService;
         <?php endif; ?>
 
             <div class="h-auto">
-                <h1 class="mx-10 mt-2 mb-4 pb-3 text-4xl leading-none tracking-tight border-b-2 border-gray-400 text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><?=$title?></h1>
+                <h1 class="mx-10 mt-2 mb-4 pb-3 leading-none tracking-tight border-b-2 border-gray-400 text-gray-900 md:text-3xl lg:text-3xl sm:text-md dark:text-white">
+                    <?=$title?></h1>
                 <div class="flex flex-col">
                     <?= $this->renderSection('content') ?>
                 </div>

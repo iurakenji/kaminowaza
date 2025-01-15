@@ -16,7 +16,7 @@ class AuthController extends BaseController
         if ($request->getMethod() === 'POST') {
             $data = $request->getPost();
             if (Services::auth()->login($data['username'], $data['password'])) {
-                return redirect()->to('/',);
+                return redirect()->to('/home',);
             } else {
                 return redirect()->back()->with('errors', ['login' => 'Usuário ou senha inválido']);
             }
@@ -28,7 +28,7 @@ class AuthController extends BaseController
     public function logout()
     {
         Services::auth()->logout();
-        return redirect()->to('/');
+        return redirect()->to('/login');
     }
 
 }

@@ -146,14 +146,26 @@ class OcorrenciaModel extends Model
         return $errors;
     }
 
-    public function getOcorrencias()
+    public function getOcorrencias($mes = null, $ano = null)
     {
         $db = db_connect();
 
         $builder = $db->table('ocorrencias');
-        $builder->select('*')
-                ->where('DATE(inicio) =', date('Y-m-d'))
-                ->where('termino >=', date('Y-m-d H:i:s'));
+
+        if (isset($mes) && isset($ano)) {
+            $builder->select('*')
+                    ->where('MONTH(inicio)', $mes)
+                    ->where('YEAR(inicio)', $ano);
+        } elseif (isset($mes)) {
+            $builder->select('*')
+                    ->where('MONTH(inicio)', $mes);
+        } elseif (isset($ano)) {
+            $builder->select('*')
+                    ->where('YEAR(inicio)', $ano);
+        } else {
+            $builder->select('*');
+        }
+
         $query = $builder->get();
 
         return $query->getResultArray();

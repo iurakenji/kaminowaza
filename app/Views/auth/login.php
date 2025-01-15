@@ -7,9 +7,9 @@
     <link rel="shortcut icon" href="<?=$theme['icon']?>" type="image/x-icon">
     <link href="<?=base_url()?>css/output.css?v=1.0" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-gradient-to-r <?= $theme['backg-color'] ?> flex items-center justify-center p-6">
+<body class="min-h-screen <?= $theme['backg-color'] ?> flex items-center justify-center p-6">
     <div class="w-full max-w-md rounded-lg overflow-hidden">
-        <div class="flex justify-center mt-4 bg-black">
+        <div class="flex justify-center mt-4 shadow-lg p-4 dark:shadow-lg bg-gradient-to-r <?= $theme['colors'] ?>">
                 <img loading="lazy" decoding="async" src="<?= $theme['logo'] ?>" 
                     class="h-16" alt="Logo">
         </div>

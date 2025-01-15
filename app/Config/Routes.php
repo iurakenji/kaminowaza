@@ -3,6 +3,7 @@
 use App\Controllers\Home;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
+use App\Controllers\AgendaController;
 use App\Controllers\EventoController;
 use App\Controllers\TreinoController;
 use App\Controllers\CheckInController;
@@ -12,7 +13,10 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->group('', ['filter' => 'auth'], function ($routes) {
+
     $routes->GET('/', [Home::class, 'index']);
+    $routes->GET('/home', [Home::class, 'index']);
+
     $routes->GET('user', [UserController::class, 'index']);
     $routes->GET('user/create', [UserController::class, 'create']);
     $routes->GET('user/edit/(:num)', [UserController::class, 'edit']);
@@ -36,6 +40,9 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     $routes->GET('checkin', [CheckInController::class, 'index']);
     $routes->POST('checkin/save', [CheckInController::class, 'save']);
+
+    $routes->GET('agenda', [AgendaController::class, 'index']);
+
 });
 
 $routes->match(['get', 'post'], 'login', [AuthController::class, 'login']);
