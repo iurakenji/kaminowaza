@@ -24,6 +24,13 @@ class GraduacaoController extends BaseController
     {
         $data['title'] = 'Criar Nova Graduação';
         $data['tecnicas'] = model(TecnicaModel::class)->findAll();
+        $data['tipos_requisitos'] = [
+            'aulas_total' => 'Total de aulas',
+            'tempo_total' => 'Tempo total',
+            'aulas_grad' => 'Aulas desde a última graduação',
+            'aulas_tempo' => 'Aulas em um período',
+            'idade' => 'Idade',
+        ];
         return view('graduacao/create-edit', $data);
     }
 
@@ -37,7 +44,15 @@ class GraduacaoController extends BaseController
         $data['graduacao'] = $graduacaoModel->find($id);
         $data['requisitos'] = $requisitosModel->where('graduacao_id', $id)->findAll();
         $data['tecnicas'] = $tecnicasModel->findAll();
+        $data['tecnicas'] = array_combine(array_column($data['tecnicas'], 'id'),array_column($data['tecnicas'], 'nome'));
         $data['graduacao_tecnicas'] = $graduacaoTecnicasModel->where('graduacao_id', $id)->findAll();
+        $data['tipos_requisitos'] = [
+            'aulas_total' => 'Total de aulas',
+            'tempo_total' => 'Tempo total',
+            'aulas_grad' => 'Aulas desde a última graduação',
+            'aulas_tempo' => 'Aulas em um período',
+            'idade' => 'Idade',
+        ];
         return view('graduacao/create-edit', $data);
     }
 

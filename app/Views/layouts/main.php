@@ -159,12 +159,6 @@
     <script src="<?= base_url('js/main-page-scripts.js') ?>"></script>
     <script src="<?= base_url('js/global.js') ?>"></script>
 
-    <script>
-        <?php if (empty($conflitos)) : ?>                
-            staticModal.classList.remove('hidden');
-        <?php endif; ?>
-    </script>
-
     <?= $this->renderSection('scripts') ?>
     </body>
 </html>

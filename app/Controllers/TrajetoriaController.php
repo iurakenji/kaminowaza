@@ -9,6 +9,7 @@ class TrajetoriaController extends BaseController
 {
     public function index()
     {
-        //
+        $data['title'] = 'Trajetoria';
+        return view('trajetoria/index', $data);
     }
 }

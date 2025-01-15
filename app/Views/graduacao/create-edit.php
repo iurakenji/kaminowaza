@@ -7,8 +7,9 @@
         <?= form_open_multipart('graduacao/save' . (isset($graduacao) ? "/$graduacao[id]" : ''), ['id' => 'form-graduacao']) ?>
         <?php if (isset($graduacao['id'])): ?>
             <?= form_hidden('id', $graduacao['id']); ?>
-            <input type="hidden" name="requisitos" id="campo-requisitos">
         <?php endif; ?>
+        <input type="hidden" name="requisitos" id="campo-requisitos">
+        <input type="hidden" name="graduacao_tecnicas" id="campo-graduacao-tecnicas">
             <div class="flex flex-col">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="data">Nome</label>
                 <?= form_input('nome', isset($graduacao) ? $graduacao['nome'] : '', ['required' => 'required', 'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500']); ?>
@@ -55,19 +56,18 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">Tipo</th>
-                                <th scope="col" class="px-6 py-3">Valor</th>
-                                <th scope="col" class="px-6 py-3">Quantidade / Unidade</th>
-                                <th scope="col" class="px-6 py-3">Ação</th>
+                                <th scope="col" class="px-6 py-3 text-center">Valor</th>
+                                <th scope="col" class="px-6 py-3 text-center">Quantidade / Unidade</th>
+                                <th scope="col" class="px-6 py-3 text-center">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
                             <template x-for="(requisito, index) in requisitos" :key="index">
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td x-text="requisito.tipo" class="px-6 py-4"></td>
-                                    <td x-text="requisito.valor_minimo || 'N/A'" class="px-6 py-4"></td>
-                                    <td x-text="requisito.unidade || 'N/A'" class="px-6 py-4"></td>
-                                    <td class="px-6 py-4">
-                                        <button x-on:click="editRequisito(index)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</button>
+                                    <td x-text="tipos_requisitos[requisito.tipo]" class="px-6 py-4"></td>
+                                    <td x-text="requisito.valor_minimo || 'N/A'" class="px-6 py-4 text-center"></td>
+                                    <td x-text="requisito.unidade || 'N/A'" class="px-6 py-4 text-center"></td>
+                                    <td class="px-6 py-4 text-center">
                                         <button x-on:click="removeRequisito(index)" class="font-medium text-red-600 dark:text-red-500 hover:underline ml-2">Remover</button>
                                     </td>
                                 </tr>
@@ -123,16 +123,16 @@
 
                 <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
 
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <div x-data="tecnicaHandler()" class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <div class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
-                            <label for="table-search" class="sr-only">Search</label>
+                            <label for="table-search" class="sr-only">Procurar</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                 </div>
-                                <input type="text" id="table-search-users" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users">
+                                <input @change="search" x-model="search" type="text" id="table-search-users" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Localizar">
                             </div>
                         </div>
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -140,48 +140,28 @@
                                 <tr>
                                     <th scope="col" class="p-4">
                                         <div class="flex items-center">
-                                            <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                                            <label for="checkbox-all-search" class="sr-only">Avaliado</label>
                                         </div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Nome
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Action
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($tecnicas as $tecnica) : ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td class="w-4 p-4">
-                                        <div class="flex items-center">
-                                            <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                        </div>
-                                    </td>
-                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image">
-                                        <div class="ps-3">
-                                            <div class="text-base font-semibold">Neil Sims</div>
-                                            <div class="font-normal text-gray-500">neil.sims@flowbite.com</div>
-                                        </div>  
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        React Developer
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <!-- Modal toggle -->
-                                        <a href="#" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
-                                    </td>
-                                </tr>      
-                            <?php endforeach; ?>                          
+                                <template x-for="(tecnica, index) in tecnicas" :key="index">
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td class="w-4 p-4">
+                                            <div class="flex items-center">
+                                                <input @change="addTecnica(index)" id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                            <div x-text="tecnica" class="font-semibold"></div>
+                                        </td>
+                                    </tr>      
+                                </template>
                             </tbody>
                         </table>
                     </div>
@@ -198,9 +178,15 @@
 
 
 <script>
-    let requisitos = <?= json_encode($requisitos); ?>;
+    let requisitos = <?= json_encode(isset($requisitos) ? $requisitos : []); ?>;
     const campoRequisitos = document.getElementById('campo-requisitos');
-    campoRequisitos.value = JSON.stringify(this.requisitos);
+    const campoGraduacaoTecnicas = document.getElementById('campo-graduacao-tecnicas');
+    const tipos_requisitos = <?= json_encode($tipos_requisitos); ?>;
+    const tecnicas = <?= json_encode($tecnicas); ?>;
+    let graduacaoTecnicas = <?= json_encode(isset($graduacao_tecnicas) ? array_column($graduacao_tecnicas, 'tecnica_id') : []); ?>;
+
+    campoRequisitos.value = JSON.stringify(requisitos);
+    campoGraduacaoTecnicas.value = JSON.stringify(graduacaoTecnicas);
     
     function requisitoHandler() {
         return {
@@ -209,6 +195,7 @@
             valor_minimo: '',
             valor_unidade: '',
             unidade: '',
+            tecnicas: [],
             requisitosShow: false,
 
             addRequisito() {
@@ -238,18 +225,23 @@
                 this.requisitos.splice(index, 1);
                 campoRequisitos.value = JSON.stringify(this.requisitos);
             },
+        };
+    }
 
-            editRequisito(index) {
-                const requisito = this.requisitos[index];
+    function tecnicaHandler() {
+        return {
+            tecnicas: tecnicas || [],
+            search: '',
+            graduacaoTecnicas: graduacaoTecnicas || [],
 
-                this.tipo = requisito.tipo;
-                this.valor_minimo = requisito.valor_minimo;
-                this.valor_unidade = requisito.valor_unidade;
-                this.unidade = requisito.unidade;
-                this.requisitosShow = true;
+            addTecnica(id) {
+                if (!this.graduacaoTecnicas.includes(id)) {
+                    this.graduacaoTecnicas.push(id);
+                }
+            },
 
-                this.requisitos.splice(index, 1);
-                campoRequisitos.value = JSON.stringify(this.requisitos);
+            removeTecnica(index) {
+                this.tecnicas.splice(index, 1);
             },
         };
     }
