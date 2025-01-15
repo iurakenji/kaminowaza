@@ -26,7 +26,7 @@ class TecnicaController extends BaseController
     public function edit($id): string
     {
         $tecnicaModel = model(TecnicaModel::class);
-        $title = 'Editar Tipo de Pagamento';
+        $title = 'Editar Técnica';
         $tecnica = $tecnicaModel->find($id);
         return view('tecnica/create-edit', ['title' => $title, 'tecnica' => $tecnica]);
     }

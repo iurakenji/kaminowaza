@@ -18,6 +18,7 @@
 - [x] Criar tela "Técnicas"
   - [ ] Fazer os vídeos com "embedding"
 - [ ] Criar tela "Requisitos"
+- [ ] Criar tela "Checklist de Requisitos"
 - [ ] Registros de Exames de Faixa
 - [ ] Relatório de Frequência
 - [ ] Relatório de Trajetorias
