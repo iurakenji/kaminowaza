@@ -13,7 +13,7 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 class EventoController extends BaseController
 {
 
-        public function index(string $page = 'index'): string
+    public function index(string $page = 'index'): string
     {
         $title = 'Eventos';
         $eventoModel = model(EventoModel::class);

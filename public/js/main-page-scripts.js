@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    const staticModal = document.getElementById('static-modal');
-    const closeButton = staticModal.querySelector('button');
     const deleteButtons = document.querySelectorAll(".delete_button");
     const modal = document.getElementById("popup-confirm");
     const confirmButton = modal.querySelector("button.text-white.bg-red-600");
@@ -20,7 +18,9 @@ document.addEventListener("DOMContentLoaded", function() {
         button.addEventListener("click", function (event) {
             event.preventDefault();
             currentHref = this.href;
-            modal.classList.remove("hidden");
+            if (modal) {
+                modal.classList.remove("hidden");
+            }
         });
     });
 

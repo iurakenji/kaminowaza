@@ -1,8 +1,6 @@
 <?php
 
-    use App\Services\AuthService;
-
-    $theme = \Config\Services::theme()->getTheme();
+use App\Services\AuthService;
 
 ?>
 <!doctype html>
@@ -10,29 +8,91 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <title><?= $this->renderSection('title') ?></title>
         <link href="<?=base_url()?>css/output.css?v=1.0" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="shortcut icon" href="<?=$theme['icon']?>" type="image/x-icon">
-        <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Shippori+Mincho+B1&display=swap" rel="stylesheet">
+                <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Shippori+Mincho+B1&display=swap" rel="stylesheet">
         <link href="<?=base_url()?>css/extra-styles.css" rel="stylesheet">
         <title>Kaminowaza Dojo</title>
     </head>
 
     <body class="bg-gray-100 rocknroll-one-regular w-screen min-h-screen flex flex-col">
         <header class="p-4 w-full bg-gray-200">
-            <?= view_cell('NavBarCell') ?>
+            <nav class="bg-gradient-to-r <?= $theme['colors'] ?> shadow-lg dark:shadow-lg fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+                <div class="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-3">
+                    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <img loading="lazy" decoding="async" src="<?= $theme['logo'] ?>" 
+                            class="h-12 sm:h-16" alt="Logo">
+                    </a>
+
+                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-white rounded-lg md:hidden lg:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                    <span class="sr-only">Abrir Menu</span>
+                    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                    </svg>
+                </button>
+
+                    <div class="hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0">
+                            <li>
+                                <a href="/" class="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 md:dark:text-blue-500" aria-current="page">
+                                    Iní­cio
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/treino" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Treinos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/evento" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Eventos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/checkin" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Check In
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/agenda" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Agenda
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/normas" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Normas do Dojo
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Financeiro
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/user" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Usuários
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/logout" class="block py-2 px-3 text-gray-500 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                                    Sair
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </header>
 
-        <main class="flex-grow mt-16">
+        <main class="flex-grow pt-30" style="margin-top: 8vh;">
             <?php if (session()->has('errors')): ?>
                 <?php foreach (session('errors') as $error): ?>
                     <div id="alert-border-2" class="flex items-center p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800" role="alert">
                         <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                         </svg>
                         <div class="ms-3 text-sm font-medium">
                             <?= $error ?>
@@ -46,7 +106,6 @@
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
-
             <?php if (session()->has('success')): ?>
                     <div id="alert-border-3" class="flex items-center p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800" role="alert">
                         <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -136,7 +195,7 @@
         <?php endif; ?>
 
             <div class="h-auto">
-                <h1 class="mx-10 mt-2 mb-4 pb-3 text-4xl leading-none tracking-tight border-b-2 border-gray-400 text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><?=isset($title) ? $title : ''?></h1>
+                <h1 class="mx-10 mt-2 mb-4 pb-3 text-4xl leading-none tracking-tight border-b-2 border-gray-400 text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><?=$title?></h1>
                 <div class="flex flex-col">
                     <?= $this->renderSection('content') ?>
                 </div>
@@ -150,7 +209,7 @@
                 <p>Página renderizada em {elapsed_time} segundos usando {memory_usage} MB de memória. - Ambiente: <?= ENVIRONMENT ?></p>
             </div>
         <?php endif; ?>    
-        <div>© <?= date('Y') ?> Kaminowaza Dojo - Logado como: <strong><?= \Config\Services::auth()->user()['username'] ?></strong>. Todos os direitos reservados.</div>
+        <div>© <?= date('Y') ?> Kaminowaza Dojo - Logado como: <strong><?= \Config\Services::user() ?></strong>. Todos os direitos reservados.</div>
     </footer>
 
 
@@ -158,6 +217,12 @@
 
     <script src="<?= base_url('js/main-page-scripts.js') ?>"></script>
     <script src="<?= base_url('js/global.js') ?>"></script>
+
+    <script>
+        <?php if (empty($conflitos)) : ?>                
+            staticModal.classList.remove('hidden');
+        <?php endif; ?>
+    </script>
 
     <?= $this->renderSection('scripts') ?>
     </body>

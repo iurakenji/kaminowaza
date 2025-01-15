@@ -4,33 +4,19 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class TipoPagamentoModel extends Model
 {
-    protected $table            = 'users';
+    protected $table            = 'tipos_pagamentos';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'username',
-        'password',
-        'status',
-        'status_message',
-        'active',
-        'last_active',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+        'id',
         'nome',
-        'email',
-        'tipo',
-        'dn',
-        'sexo',
-        'telefone',
-        'graduacao',
-        'inicio_treinos',
-        'image_path',
+        'descricao',
+        'created_at',
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -62,20 +48,4 @@ class UserModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    /**
-     * Retrieves users from the database.
-     *
-     * @param string|bool $slug Optional slug to filter a specific user.
-     * @return array|null Array of users if no slug is provided, or a single user if a slug is provided.
-     */
-    public function getUsers($slug = false)
-    {
-        if ($slug === false) {
-            return $this->findAll();
-        }
-
-        return $this->where(['slug' => $slug])->first();
-    }
-    
 }

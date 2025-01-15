@@ -4,33 +4,21 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class RequisitoModel extends Model
 {
-    protected $table            = 'users';
+    protected $table            = 'requisitos';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'username',
-        'password',
-        'status',
-        'status_message',
-        'active',
-        'last_active',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-        'nome',
-        'email',
+        'id',
+        'graduacao_id',
         'tipo',
-        'dn',
-        'sexo',
-        'telefone',
-        'graduacao',
-        'inicio_treinos',
-        'image_path',
+        'valor_minimo',
+        'valor_unidade',
+        'unidade',
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -63,19 +51,18 @@ class UserModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    /**
-     * Retrieves users from the database.
-     *
-     * @param string|bool $slug Optional slug to filter a specific user.
-     * @return array|null Array of users if no slug is provided, or a single user if a slug is provided.
-     */
-    public function getUsers($slug = false)
+    public function upsertRequisitos($graduacaoId, $data) 
     {
-        if ($slug === false) {
-            return $this->findAll();
+        $this->where('graduacao_id', $graduacaoId)->delete();
+        foreach ($data as $key => $value) {
+            $data[$key]['graduacao_id'] = $graduacaoId;
         }
-
-        return $this->where(['slug' => $slug])->first();
+        try {
+            $this->insertBatch($data);
+        } catch (\Throwable $th) {
+            return false;
+        }
+        return true;
     }
-    
+
 }
