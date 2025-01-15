@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class GraduacaoTecnicaModel extends Model
 {
-    protected $table            = 'graduacaotecnicas';
+    protected $table            = 'graduacoes_tecnicas';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';

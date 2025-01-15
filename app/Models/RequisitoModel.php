@@ -50,4 +50,19 @@ class RequisitoModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function upsertRequisitos($graduacaoId, $data) 
+    {
+        $this->where('graduacao_id', $graduacaoId)->delete();
+        foreach ($data as $key => $value) {
+            $data[$key]['graduacao_id'] = $graduacaoId;
+        }
+        try {
+            $this->insertBatch($data);
+        } catch (\Throwable $th) {
+            return false;
+        }
+        return true;
+    }
+
 }

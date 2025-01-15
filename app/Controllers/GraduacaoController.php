@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 use App\Models\TecnicaModel;
 use App\Models\GraduacaoModel;
+use App\Models\RequisitoModel;
 use App\Controllers\BaseController;
+use App\Models\GraduacaoTecnicaModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -28,9 +30,15 @@ class GraduacaoController extends BaseController
     public function edit($id): string
     {
         $graduacaoModel = model(GraduacaoModel::class);
-        $title = 'Editar Graduação';
-        $graduacao = $graduacaoModel->find($id);
-        return view('graduacao/create-edit', ['title' => $title, 'graduacao' => $graduacao]);
+        $requisitosModel = model(RequisitoModel::class);
+        $tecnicasModel = model(TecnicaModel::class);
+        $graduacaoTecnicasModel = model(GraduacaoTecnicaModel::class);
+        $data['title'] = 'Editar Graduação';
+        $data['graduacao'] = $graduacaoModel->find($id);
+        $data['requisitos'] = $requisitosModel->where('graduacao_id', $id)->findAll();
+        $data['tecnicas'] = $tecnicasModel->findAll();
+        $data['graduacao_tecnicas'] = $graduacaoTecnicasModel->where('graduacao_id', $id)->findAll();
+        return view('graduacao/create-edit', $data);
     }
 
     public function save($id = null): RedirectResponse
@@ -41,6 +49,8 @@ class GraduacaoController extends BaseController
         $validation = service('validation');
         if ($request->getMethod() === 'POST') {
             $data = $request->getPost();
+            $requisitos = json_decode($data['requisitos'], true);
+            unset($data['requisitos']);
         }
         $isEdit = isset($id);
         unset($data['submit']);
@@ -60,10 +70,14 @@ class GraduacaoController extends BaseController
                 }
             } else {
                 try {
-                    $graduacaoModel->insert($data);
+                    $id = $graduacaoModel->insert($data);
                 } catch (\Throwable $th) {
                     $errors[] = $th->getMessage();
                 }  
+            }
+            if (isset($requisitos)) {
+                $requisitosModel = model(RequisitoModel::class);
+                $requisitosModel->upsertRequisitos($id, $requisitos);
             }
         } else {
             return redirect()->back()->withInput()->with('errors', $errors);
