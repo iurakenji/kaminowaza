@@ -43,9 +43,11 @@ class GraduacaoController extends BaseController
         $data['title'] = 'Editar Graduação';
         $data['graduacao'] = $graduacaoModel->find($id);
         $data['requisitos'] = $requisitosModel->where('graduacao_id', $id)->findAll();
-        $data['tecnicas'] = $tecnicasModel->findAll();
-        $data['tecnicas'] = array_combine(array_column($data['tecnicas'], 'id'),array_column($data['tecnicas'], 'nome'));
+        $data['tecnicas'] = array_map(function($tecnica) {
+            return ['id' => $tecnica['id'], 'nome' => $tecnica['nome']];
+        }, $tecnicasModel->findAll());
         $data['graduacao_tecnicas'] = $graduacaoTecnicasModel->where('graduacao_id', $id)->findAll();
+        $data['graduacao_tecnicas'] = array_column($data['graduacao_tecnicas'], 'tecnica_id');
         $data['tipos_requisitos'] = [
             'aulas_total' => 'Total de aulas',
             'tempo_total' => 'Tempo total',
@@ -65,7 +67,9 @@ class GraduacaoController extends BaseController
         if ($request->getMethod() === 'POST') {
             $data = $request->getPost();
             $requisitos = json_decode($data['requisitos'], true);
+            $tecnicas = json_decode($data['graduacao_tecnicas'], false);
             unset($data['requisitos']);
+            unset($data['graduacao_tecnicas']);
         }
         $isEdit = isset($id);
         unset($data['submit']);
@@ -93,6 +97,10 @@ class GraduacaoController extends BaseController
             if (isset($requisitos)) {
                 $requisitosModel = model(RequisitoModel::class);
                 $requisitosModel->upsertRequisitos($id, $requisitos);
+            }
+            if (isset($tecnicas)) {
+                $graduacaoTecnicasModel = model(GraduacaoTecnicaModel::class);
+                $graduacaoTecnicasModel->upsertTecnicas($id, $tecnicas);
             }
         } else {
             return redirect()->back()->withInput()->with('errors', $errors);

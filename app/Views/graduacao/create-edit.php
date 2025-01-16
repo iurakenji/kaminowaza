@@ -66,7 +66,7 @@
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td x-text="tipos_requisitos[requisito.tipo]" class="px-6 py-4"></td>
                                     <td x-text="requisito.valor_minimo || 'N/A'" class="px-6 py-4 text-center"></td>
-                                    <td x-text="requisito.unidade || 'N/A'" class="px-6 py-4 text-center"></td>
+                                    <td x-text="(requisito.valor_unidade || 'N/A') + ' ' + ( requisito.unidade || 'N/A')" class="px-6 py-4 text-center"></td>
                                     <td class="px-6 py-4 text-center">
                                         <button x-on:click="removeRequisito(index)" class="font-medium text-red-600 dark:text-red-500 hover:underline ml-2">Remover</button>
                                     </td>
@@ -107,6 +107,22 @@
                                             <input x-model="valor_minimo" type="number" name="valor_minimo" id="valor_minimo" 
                                                 class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500">
                                         </div>
+                                        <div x-show="tipo == 'aulas_tempo'" class="col-span-6 sm:col-span-3">
+                                            <label for="valor_minimo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantidade / Unidade</label>
+                                            <input x-model="valor_unidade" type="number" name="valor_unidadeo" id="valor_unidade" 
+                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500">
+                                        </div>
+                                        <div x-show="tipo == 'aulas_tempo'" class="col-span-6 sm:col-span-3">
+                                            <label for="tipo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unidade</label>
+                                            <select x-model="unidade" name="unidade" id="unidade" 
+                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                                                <option value="">Selecione</option>
+                                                <option value="dia">Dias</option>
+                                                <option value="mes">Meses</option>
+                                                <option value="ano">Anos</option>
+                                                <option value="treino">Treinos</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="flex items-center p-6 space-x-3 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -132,7 +148,13 @@
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                 </div>
-                                <input @change="search" x-model="search" type="text" id="table-search-users" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Localizar">
+                                <input 
+                                    @input="searchTecnicas($event.target.value)" 
+                                    x-model="searchValue" 
+                                    type="text" 
+                                    id="table-search-users" 
+                                    class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                    placeholder="Localizar">
                             </div>
                         </div>
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -153,12 +175,17 @@
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td class="w-4 p-4">
                                             <div class="flex items-center">
-                                                <input @change="addTecnica(index)" id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <input 
+                                                @change="addTecnica(tecnica.id)" 
+                                                :checked="isChecked(tecnica.id)" 
+                                                type="checkbox" 
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            />
                                                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                                             </div>
                                         </td>
                                         <td class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            <div x-text="tecnica" class="font-semibold"></div>
+                                            <div x-text="tecnica.nome" class="font-semibold"></div>
                                         </td>
                                     </tr>      
                                 </template>
@@ -182,8 +209,8 @@
     const campoRequisitos = document.getElementById('campo-requisitos');
     const campoGraduacaoTecnicas = document.getElementById('campo-graduacao-tecnicas');
     const tipos_requisitos = <?= json_encode($tipos_requisitos); ?>;
-    const tecnicas = <?= json_encode($tecnicas); ?>;
-    let graduacaoTecnicas = <?= json_encode(isset($graduacao_tecnicas) ? array_column($graduacao_tecnicas, 'tecnica_id') : []); ?>;
+    const tecnicas = <?= json_encode(isset($tecnicas ) ? $tecnicas : [] ); ?>;
+    let graduacaoTecnicas = <?= json_encode(isset($graduacao_tecnicas) ? $graduacao_tecnicas : []); ?>;
 
     campoRequisitos.value = JSON.stringify(requisitos);
     campoGraduacaoTecnicas.value = JSON.stringify(graduacaoTecnicas);
@@ -227,24 +254,40 @@
             },
         };
     }
-
+    
     function tecnicaHandler() {
         return {
             tecnicas: tecnicas || [],
-            search: '',
+            originalTecnicas: tecnicas ? [...tecnicas] : [],
+            searchValue: '',
             graduacaoTecnicas: graduacaoTecnicas || [],
 
-            addTecnica(id) {
-                if (!this.graduacaoTecnicas.includes(id)) {
-                    this.graduacaoTecnicas.push(id);
+            addTecnica(index) {
+                if (!this.graduacaoTecnicas.includes(index)) {
+                    this.graduacaoTecnicas.push(index);
+                } else {
+                    this.graduacaoTecnicas = this.graduacaoTecnicas.filter(i => i !== index);
                 }
+                campoGraduacaoTecnicas.value = JSON.stringify(this.graduacaoTecnicas);
             },
 
-            removeTecnica(index) {
-                this.tecnicas.splice(index, 1);
+            isChecked(index) {
+                return this.graduacaoTecnicas.includes(index);
+            },
+
+            searchTecnicas(value) {
+                if (value.trim() === '') {
+                    this.tecnicas = [...tecnicas];
+                } else {
+                    this.tecnicas = tecnicas.filter(tecnica =>
+                        tecnica.nome.toLowerCase().includes(value.toLowerCase())
+                    );
+                }
             },
         };
     }
+
+
 
 
 </script>

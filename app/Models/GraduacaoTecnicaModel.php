@@ -47,4 +47,22 @@ class GraduacaoTecnicaModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function upsertTecnicas($graduacao_id, $data): void
+    {
+        if (empty($data)) {
+            return;
+        }
+
+        $this->where('graduacao_id', $graduacao_id)->delete();
+        $insertData = [];
+        foreach ($data as $value) {
+            $insertData[] = [
+                'graduacao_id' => $graduacao_id,
+                'tecnica_id' => $value,
+            ];
+        }
+        $this->insertBatch($insertData);
+    }
+
 }

@@ -16,8 +16,8 @@ class CheckInController extends BaseController
         $location = $_ENV['LOCATION'];
         $location = COORDENADAS[$location];
         $data['location'] = $location;
-        // $data['ocorrencias'] = $ocorrenciaModel->getOcorrencias();
-        // $data['ocorrencias'] = array_combine(array_column($data['ocorrencias'], 'id'), array_column($data['ocorrencias'], 'titulo'));
+        $data['ocorrencias'] = $ocorrenciaModel->getOcorrencias();
+        $data['ocorrencias'] = array_combine(array_column($data['ocorrencias'], 'id'), array_column($data['ocorrencias'], 'titulo'));
         return view('checkin/index', $data);
     }
 

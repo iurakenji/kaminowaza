@@ -53,6 +53,9 @@ class RequisitoModel extends Model
 
     public function upsertRequisitos($graduacaoId, $data) 
     {
+        if (empty($data)) {
+            return true;
+        }
         $this->where('graduacao_id', $graduacaoId)->delete();
         foreach ($data as $key => $value) {
             $data[$key]['graduacao_id'] = $graduacaoId;

@@ -1,16 +1,36 @@
 <?= $this->extend('layouts/main'); ?>
 <?php helper('form'); ?>
 <?php $this->section('content'); ?>
-<button id="checkLocation">Checar Localização</button>
+<div x-data="checkinHandler()">
+    <div x-show="success" class="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
+        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+        </svg>
+        <span class="sr-only">Sucesso</span>
+        <div>
+            <span class="font-medium">Localização verificada com sucesso!</span> Sua localização foi verificada e corresponde à localização do Dojo. Checkin permitido.
+        </div>
+    </div>
+    <div class="w-auto mx-4">
+        Selecione para qual evento deseja fazer checkin:
+            <form action="<?= url_to('checkin/save') ?>" method="post">
+                    <div class="flex flex-col mt-3">
+                        <?= form_dropdown('ocorrencia_id',['' => 'Selecione...'] + $ocorrencias, isset($ocorrencias) ? $ocorrencias : '', ['required' => 'required', 'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500']); ?>
+                    </div>
+                    <div class="flex justify-end mx-4 mt-3">
+                        <button type="submit" class="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Check In</button>
+                    </div>
+            </form>
+    </div>
+</div>
 
 <script>
 
-    const dojoLatitude = <?= $location[0] ?: '0'  ?>;
-    const dojoLongitude = <?= $location[1] ?: '0'  ?>;
+const latitudeDojo = <?= $coordenadas ?>;
+const longitudeDojo = <?= $longitudeDojo ?>;
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('checkLocation').addEventListener('click', getCurrentLocationAndSend);
-    //getCurrentLocationAndSend();
+    getCurrentLocationAndSend();
 });
 
 function getCurrentLocationAndSend() {
@@ -21,29 +41,16 @@ function getCurrentLocationAndSend() {
             (position) => {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
-                console.log('Coordenadas capturadas:');
                 console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-
-                const alunoLatitude = position.coords.latitude;
-                const alunoLongitude = position.coords.longitude;
-
-                const distancia = getDistance(dojoLatitude, dojoLongitude, alunoLatitude, alunoLongitude);
-
-                if (distancia <= 0.5) {
-                    console.log('Aluno está no dojo. Check-in permitido.');
-                    fetch('<?= url_to('checkin/save') ?>', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ latitude, longitude }),
-                    }).then((response) => {
-                        console.log('Localização enviada com sucesso:', response);
-                    });
-                } else {
-                    console.log('Aluno não está no dojo. Check-in não permitido.');
-                    alert('Não foi possível fazer login, a sua localização não corresponde ao dojo.');
-                }
+                fetch('/save-location', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ latitude, longitude }),
+                }).then((response) => {
+                    console.log('Localização enviada com sucesso:', response);
+                });
             },
             (error) => {
                 console.error('Erro ao obter localização:', error);
@@ -54,18 +61,11 @@ function getCurrentLocationAndSend() {
     }
 }
 
-function getDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-    return distance;
-}
+function checkinHandler() {
+        return {
+            requisitos: requisitos || [],
+        };
+    }
 
 </script>
 
