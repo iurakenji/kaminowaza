@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use App\Models\LocalModel;
 use App\Models\EventoModel;
 use App\Models\OcorrenciaModel;
 use App\Controllers\BaseController;
@@ -24,15 +25,21 @@ class EventoController extends BaseController
     public function create(): string
     {
         $title = 'Criar evento';
-        return view('evento/create-edit', compact('title'));
+        $locaisModel = model(LocalModel::class);
+        $locais = $locaisModel->findAll();
+        $locais = array_combine(array_column($locais, 'id'), array_column($locais, 'nome'));
+        return view('evento/create-edit', compact('title', 'locais'));
     }
 
     public function edit($id): string
     {
         $eventoModel = model(EventoModel::class);
         $title = 'Editar evento';
+        $locaisModel = model(LocalModel::class);
+        $locais = $locaisModel->findAll();
+        $locais = array_combine(array_column($locais, 'id'), array_column($locais, 'nome'));
         $evento = $eventoModel->find($id);
-        return view('evento/create-edit', ['title' => $title, 'evento' => $evento]);
+        return view('evento/create-edit', ['title' => $title, 'evento' => $evento, 'locais' => $locais]);
     }
 
     public function save($id = null): RedirectResponse
@@ -71,6 +78,7 @@ class EventoController extends BaseController
                     $errors[] = $th->getMessage();
                 }
                 $ocorrencia = $ocorrenciaModel->where(['referencia_id' => $id])->where(['tipo' => 'evento'])->first();
+                $ocorrencia = !empty($ocorrencia) ? $ocorrencia['id'] : null;
             } else {
                 try {
                     $eventoInserido = $eventoModel->insert($data);
@@ -86,6 +94,7 @@ class EventoController extends BaseController
                 'titulo' => $data['titulo'],
                 'observacao' => $data['observacao']
             ];
+
             try {
                 if (!$isEdit && empty($ocorrencia)) {
                     $ocorrenciaModel->insert($ocorrenciaData);
@@ -95,9 +104,12 @@ class EventoController extends BaseController
             } catch (\Throwable $th) {
                 $errors[] = $th->getMessage();
             }
-        } else {
+        }
+
+        if (!empty($errors)) {
             return redirect()->back()->withInput()->with('errors', $errors);
         }
+        
         return redirect()->to('/evento')->with('success', 'Evento salvo com sucesso!');
     }
 

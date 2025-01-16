@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use App\Models\LocalModel;
 use App\Models\TreinoModel;
 use App\Models\OcorrenciaModel;
 use App\Controllers\BaseController;
@@ -14,7 +15,7 @@ class TreinoController extends BaseController
 {
     public function index(string $page = 'index'): string
     {
-        $title = 'Treinos';
+        $data['title'] = 'Treinos';
         $treinoModel = model(TreinoModel::class);
         $userModel = model(UserModel::class);
         $data['treinos'] = $treinoModel->findAll();
@@ -22,27 +23,33 @@ class TreinoController extends BaseController
         $professores = array_combine(array_column($professores, 'id'),array_column($professores, 'nome'));
         $data['professores'] = $professores;
 
-        return view('treino/' . $page, ['title' => $title, 'data' => $data]);
+        return view('treino/' . $page, $data);
     }
 
     public function create(): string
     {
         $userModel = model(UserModel::class);
-        $title = 'Criar Treino';
-        $professores = $userModel->select(['id', 'nome'])->where(['tipo' => 'professor'])->findAll();
-        $professores = array_combine(array_column($professores, 'id'),array_column($professores, 'nome'));
-        return view('treino/create-edit', compact('title', 'professores'));
+        $data['title'] = 'Criar Treino';
+        $locaisModel = model(LocalModel::class);
+        $data['locais'] = $locaisModel->findAll();
+        $data['locais'] = array_combine(array_column($data['locais'], 'id'), array_column($data['locais'], 'nome'));
+        $data['professores'] = $userModel->select(['id', 'nome'])->where(['tipo' => 'professor'])->findAll();
+        $data['professores'] = array_combine(array_column($data['professores'], 'id'),array_column($data['professores'], 'nome'));
+        return view('treino/create-edit', $data);
     }
 
     public function edit($id): string
     {
         $treinoModel = model(TreinoModel::class);
         $userModel = model(UserModel::class);
-        $title = 'Editar Treino';
-        $treino = $treinoModel->find($id);
+        $data['title'] = 'Editar Treino';
+        $data['treino'] = $treinoModel->find($id);
+        $locaisModel = model(LocalModel::class);
+        $data['locais'] = $locaisModel->findAll();
+        $data['locais'] = array_combine(array_column($data['locais'], 'id'), array_column($data['locais'], 'nome'));
         $professores = $userModel->select(['id', 'nome'])->where(['tipo' => 'professor'])->findAll();
-        $professores = array_combine(array_column($professores, 'id'),array_column($professores, 'nome'));
-        return view('treino/create-edit', ['title' => $title, 'treino' => $treino, 'professores' => $professores]);
+        $data['professores'] = array_combine(array_column($professores, 'id'),array_column($professores, 'nome'));
+        return view('treino/create-edit', $data);
     }
 
     public function save($id = null): RedirectResponse
@@ -107,7 +114,8 @@ class TreinoController extends BaseController
                 'observacao' => $data['observacao']
             ];
             $errors += $ocorrenciaModel->upsertTreinos($ocorrenciaData);
-        } else {
+        } 
+        if (!empty($errors)) {
             return redirect()->back()->withInput()->with('errors', $errors);
         }
         return redirect()->to('/treino')->with('success', 'Treino salvo com sucesso!');

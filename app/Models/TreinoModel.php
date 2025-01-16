@@ -16,7 +16,8 @@ class TreinoModel extends Model
         'dia',
         'inicio',
         'termino',
-        'professor_id'
+        'professor_id',
+        'treino_id'
     ];
 
     protected bool $allowEmptyInserts = false;

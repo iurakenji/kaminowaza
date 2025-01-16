@@ -4,21 +4,20 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EventoModel extends Model
+class LocalModel extends Model
 {
-    protected $table            = 'eventos';
+    protected $table            = 'locais';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'titulo',
-        'inicio',
-        'termino',
-        'tipo',
-        'observacao',
-        'local_id'
+        'id',
+        'nome',
+        'latitude',
+        'longitude',
+        'raio_permitido'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -50,5 +49,4 @@ class EventoModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
 }

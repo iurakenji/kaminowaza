@@ -16,35 +16,6 @@ use Kint\Kint;
  * @see: https://codeigniter.com/user_guide/extending/common.html
  */
 
- const COORDENADAS = [
-    'development1' => [
-      -27.623414700701233, -48.6702291774703
-    ],
-    'development2' => [
-      -27.60032761141091, -48.51536939208439
-    ],
-    'dojo' => [
-      -27.70348341322536, -48.50627429696752
-    ],
-   ];
-
- const GRADUACOES = [
-    'VII' => '7º Kyu',
-    'VI' => '6º Kyu',
-    'V' => '5º Kyu',
-    'IV' => '4º Kyu',
-    'III' => '3º Kyu',
-    'II' => '2º Kyu',
-    'I' => '1º Kyu',
-    '1D' => 'Shodan',
-    '2D' => 'Nidan',
-    '3D' => 'Sandan',
-    '4D' => 'Yondan',
-    '5D' => 'Godan',
-    '6D' => 'Rokudan',
-    '0' => 'N/A'
- ];
-
  const HORARIOS = [
     '05:00:00' => '05h00',
     '05:30:00' => '05h30',

@@ -76,7 +76,7 @@ class OcorrenciaModel extends Model
             if (isset($data['id'])) {
                 $builder->groupStart()
                     ->where('referencia_id !=', $data['id'])
-                    ->where('tipo', $data['tipo'])
+                    ->where('tipo', 'treino_regular')
                     ->groupEnd();
             }
         } else {
@@ -89,12 +89,12 @@ class OcorrenciaModel extends Model
                         ->where('inicio >=', date('Y-m-d H:i:s', strtotime($data['inicio'])))
                         ->orWhere('termino <=', date('Y-m-d H:i:s', strtotime($data['termino'])))
                     ->groupEnd();
-        }
-        if (isset($data['id'])) {
-            $builder->groupStart()
-                    ->where('referencia_id !=', $data['id'])
-                    ->where('tipo', $data['tipo'])
-                    ->groupEnd();
+            if (isset($data['id'])) {
+                $builder->groupStart()
+                        ->where('referencia_id !=', $data['id'])
+                        ->where('tipo', $data['tipo'])
+                        ->groupEnd();
+            }
         }
         $query = $builder->get();
         $conflitos = $query->getResultArray();

@@ -16,12 +16,12 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data['treinos'] as $treino) : ?>
+                <?php foreach ($treinos as $treino) : ?>
                     <tr>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><?= WEEKDAYS[$treino['dia']] ?></td>
                         <td class="px-6 py-4 text-center"><?= date('H:i', strtotime($treino['inicio'])) ?></td>
                         <td class="px-6 py-4 text-center"><?= date('H:i', strtotime($treino['termino'])) ?></td>
-                        <td class="px-6 py-4 text-center"><?= $data['professores'][$treino['professor_id']] ?></td>
+                        <td class="px-6 py-4 text-center"><?= $professores[$treino['professor_id']] ?></td>
                         <td class="px-6 py-4 text-center">
                             <a class="me-2 text-blue-900 hover:text-blue-600" href="/treino/edit/<?= $treino['id'] ?>">Editar</a> | 
                             <a class="me-2 text-red-900 hover:text-red-600" href="/treino/delete/<?= $treino['id'] ?>">Excluir</a>

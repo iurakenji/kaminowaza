@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\LocalModel;
 use App\Models\CheckInModel;
 use App\Models\OcorrenciaModel;
 use App\Controllers\BaseController;
@@ -13,18 +14,15 @@ class CheckInController extends BaseController
     {
         $ocorrenciaModel = model(OcorrenciaModel::class);
         $data['title'] = 'Check-in';
-        $location = $_ENV['LOCATION'];
-        $location = COORDENADAS[$location];
-        $data['location'] = $location;
         $data['ocorrencias'] = $ocorrenciaModel->getOcorrencias();
+        $localModel = model(LocalModel::class);
+        $data['locais'] = $localModel->findAll();
         $data['ocorrencias'] = array_combine(array_column($data['ocorrencias'], 'id'), array_column($data['ocorrencias'], 'titulo'));
         return view('checkin/index', $data);
     }
 
     public function save()
     {
-        $location = $_ENV['LOCATION'];
-        $location = COORDENADAS[$location];
         
         //Implementar checagem secundária (backend) da localização
 

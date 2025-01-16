@@ -3,9 +3,10 @@
 use App\Controllers\Home;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
+use App\Controllers\LocalController;
 use App\Controllers\NormaController;
-use App\Controllers\ConfigController;
 use App\Controllers\AgendaController;
+use App\Controllers\ConfigController;
 use App\Controllers\EventoController;
 use App\Controllers\TreinoController;
 use App\Controllers\CheckInController;
@@ -95,6 +96,13 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->GET('graduacao/delete/(:num)', [GraduacaoController::class, 'delete']);
     $routes->POST('graduacao/save/(:num)', [GraduacaoController::class, 'save']);
     $routes->POST('graduacao/save/', [GraduacaoController::class, 'save']);
+
+    $routes->GET('local', [LocalController::class, 'index']);
+    $routes->GET('local/create', [LocalController::class, 'create']);
+    $routes->GET('local/edit/(:num)', [LocalController::class, 'edit']);
+    $routes->GET('local/delete/(:num)', [LocalController::class, 'delete']);
+    $routes->POST('local/save/(:num)', [LocalController::class, 'save']);
+    $routes->POST('local/save/', [LocalController::class, 'save']);
 
     $routes->GET('relatorios', [RelatoriosController::class, 'index']);
 
