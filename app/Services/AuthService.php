@@ -45,7 +45,6 @@ class AuthService
 
     public function user()
     {
-        dd($this->session->get('user'));
         return $this->session->get('user');
     }
 }
