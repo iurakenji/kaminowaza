@@ -32,7 +32,7 @@
             </form>
         </div>
     </div>
-    <script src="\public\js\modal-scripts.js"></script>
+    <script src="\www\js\modal-scripts.js"></script>
     <script src="https://unpkg.com/flowbite@1.6.4/dist/flowbite.js"></script>
 </body>
 </html>

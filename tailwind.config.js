@@ -2,9 +2,9 @@
 module.exports = {
   content: [
     "./app/Views/**/*.php",
-    "./public/index.php",
-    "./public/Components/**/*.{html,js}",
-    "./public/**/*.{html,js,css,php}",
+    "./www/index.php",
+    "./www/Components/**/*.{html,js}",
+    "./www/**/*.{html,js,css,php}",
     "./node_modules/flowbite/**/*.js"
   ],
   theme: {

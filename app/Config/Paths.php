@@ -39,6 +39,9 @@ class Paths
      */
     public string $appDirectory = __DIR__ . '/..';
 
+
+    public string $publicDirectory = __DIR__ . '/../www';
+
     /**
      * ---------------------------------------------------------------
      * WRITABLE DIRECTORY NAME
