@@ -16,7 +16,13 @@ class CheckInController extends BaseController
         $data['title'] = 'Check-in';
         $data['ocorrencias'] = $ocorrenciaModel->getOcorrencias();
         $localModel = model(LocalModel::class);
-        $data['locais'] = $localModel->findAll();
+        $ocorrenciaModel = model(OcorrenciaModel::class);
+        $now = date('Y-m-d');
+        $data['ocorrencias'] = $ocorrenciaModel
+            ->select('id, titulo')
+                ->where("DATE(inicio) = '$now'")
+                ->orWhere("DATE(termino) = '$now'")
+            ->findAll();
         $data['ocorrencias'] = array_combine(array_column($data['ocorrencias'], 'id'), array_column($data['ocorrencias'], 'titulo'));
         return view('checkin/index', $data);
     }

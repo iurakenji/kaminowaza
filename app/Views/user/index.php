@@ -17,14 +17,14 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data['users'] as $user) : ?>
+                <?php foreach ($users as $user) : ?>
                     <?php if ($user['nome'] === 'admin') {continue;} ?>
                     <tr>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <img src="/images/users/<?= $user['image_path'] ?>" alt="" class="lg:w-20 lg:h-20 sm:w-8 sm:h-8 rounded-full">
                         </td>
                         <td style="width: 50%;"><?= $user['nome'] ?></td>
-                        <td class="text-center" style="width: 35%;"><?= $user['graduacao'] ?></td>
+                        <td class="text-center" style="width: 35%;"><?= $graduacoes[$user['graduacao']] ?? ' - ' ?></td>
                         <td class="text-center" style="width: 15%;">
                             <a href="/user/edit/<?= $user['id'] ?>">Editar</a>
                             <a href="/user/delete/<?= $user['id'] ?>">Excluir</a>

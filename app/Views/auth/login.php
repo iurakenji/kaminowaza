@@ -27,7 +27,6 @@
                 </div>
                 <div class="flex items-center justify-between mt-4">
                     <button type="submit" class="px-4 py-2 <?= $theme['buttonColor'] ?> text-white rounded-md focus:outline-none">Log In</button>
-                    <button class="px-4 py-2 <?= $theme['buttonColor'] ?> text-white rounded-md focus:outline-none">Testar</button>
                 </div>
             </form>
         </div>

@@ -54,7 +54,7 @@
             </div>
             <div class="flex flex-col mt-3">
                 <label for="graduacao">Graduação</label>
-                <?= form_dropdown('graduacao', array_merge(['' => 'Selecione'], GRADUACOES), isset($user) ? $user['graduacao'] : '', ['required' => 'required']); ?>
+                <?= form_dropdown('graduacao', ['' => 'Selecione'] + $graduacoes, isset($user) ? $user['graduacao'] : '', ['required' => 'required']); ?>
             </div>
             <div class="flex flex-col mt-3">
                 <label for="inicio_treinos">Início dos Treinos</label>

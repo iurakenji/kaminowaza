@@ -2,36 +2,45 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
-use App\Controllers\BaseController;
-use CodeIgniter\Exceptions\PageNotFoundException;
-use CodeIgniter\HTTP\RedirectResponse;
 use Exception;
+use App\Models\UserModel;
+use App\Models\GraduacaoModel;
+use App\Controllers\BaseController;
+use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class UserController extends BaseController
 {
     public function index(string $page = 'index'): string
     {
-        if (! is_file(APPPATH . 'Views/user/' . $page . '.php')) {
-            throw new PageNotFoundException($page);
-        }
         $userModel = model(UserModel::class);
+        $data['title'] = 'Usuários';
         $data['users'] = $userModel->findAll();
+        $graduacaoModel = model(GraduacaoModel::class);
+        $data['graduacoes'] = $graduacaoModel->findAll();
+        $data['graduacoes'] = array_combine(array_column($data['graduacoes'], 'id'),array_column($data['graduacoes'], 'nome'));
 
-        return view('user/' . $page, ['title' => 'Usuários', 'data' => $data]);
+        return view('user/' . $page, $data);
     }
 
     public function create(): string
     {
-        return view('user/create-edit', ['title' => 'Criar Usuário']);
+        $data['title'] = 'Inserir Novo Usuário';
+        $graduacaoModel = model(GraduacaoModel::class);
+        $data['graduacoes'] = $graduacaoModel->findAll();
+        $data['graduacoes'] = array_combine(array_column($data['graduacoes'], 'id'),array_column($data['graduacoes'], 'nome'));
+        return view('user/create-edit', $data);
     }
 
     public function edit($id): string
     {
         $userModel = model(UserModel::class);
-        $title = 'Editar Usuário';
-        $user = $userModel->find($id);
-        return view('user/create-edit', ['title' => $title, 'user' => $user]);
+        $data['title'] = 'Editar Usuário';
+        $data['user'] = $userModel->find($id);
+        $graduacaoModel = model(GraduacaoModel::class);
+        $data['graduacoes'] = $graduacaoModel->findAll();
+        $data['graduacoes'] = array_combine(array_column($data['graduacoes'], 'id'),array_column($data['graduacoes'], 'nome'));
+        return view('user/create-edit', $data);
     }
 
     public function save($id = null): RedirectResponse{
@@ -44,7 +53,9 @@ class UserController extends BaseController
         }
         $isEdit = isset($id);
         unset($data['submit']);
-        $graduacoes = implode(',', array_keys(GRADUACOES));
+        $graduacaoModel = model(GraduacaoModel::class);
+        $graduacoes = $graduacaoModel->findAll();
+        $graduacoes = implode(',', array_column($graduacoes, 'id'));
         $rules = [
             'username' => 'required',
             'nome' => 'required',
