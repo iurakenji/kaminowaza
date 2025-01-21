@@ -18,6 +18,13 @@ class CheckInController extends BaseController
         $localModel = model(LocalModel::class);
         $ocorrenciaModel = model(OcorrenciaModel::class);
         $now = date('Y-m-d');
+        $locais = $localModel->findAll();
+        $data['locais'] = array_map(function($local) {
+            return [
+                'latitude' => $local['latitude'],
+                'longitude' => $local['longitude']
+            ];
+        }, array_combine(array_column($locais, 'id'), $locais));
         $data['ocorrencias'] = $ocorrenciaModel
             ->select('id, titulo')
                 ->where("DATE(inicio) = '$now'")

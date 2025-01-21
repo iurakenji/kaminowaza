@@ -1,8 +1,8 @@
 <?= $this->extend('layouts/main'); ?>
 <?php helper('form'); ?>
 <?php $this->section('content'); ?>
-<div x-data="checkinHandler()">
-    <div x-show="success" class="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
+<div x-data="checkinHandler()" x-show="locationSuccess">
+    <div class="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
         <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
         </svg>
@@ -35,29 +35,25 @@
 
 <script>
 
+const locais = <?= json_encode($locais); ?>;
+let coordenadas = {
+    latitude: null,
+    longitude: null
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-    getCurrentLocationAndSend();
+    checkCurrentLocation();
 });
 
-function getCurrentLocationAndSend() {
+function checkCurrentLocation() {
     console.log('Checando Localização...');
     if (navigator.geolocation) {
         console.log('...Geolocalização é suportada neste navegador... Prosseguindo...');
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                
-                // fetch('/save-location', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify({ latitude, longitude }),
-                // }).then((response) => {
-                //     console.log('Localização enviada com sucesso:', response);
-                // });
+                coordenadas.latitude = position.coords.latitude;
+                coordenadas.longitude = position.coords.longitude;
+                checkinHandler().checkMe();
             },
             (error) => {
                 console.error('Erro ao obter localização:', error);
@@ -70,8 +66,15 @@ function getCurrentLocationAndSend() {
 
 function checkinHandler() {
         return {
-            requisitos: requisitos || [],
-            success: true
+            coordenadas: coordenadas || [],
+            locationSuccess: false,
+
+            checkMe() {
+                if (coordenadas.latitude && coordenadas.longitude) {
+                    this.locationSuccess = true;
+                    console.log('Localização verificada pelo handler com sucesso! Latitude: ' + coordenadas.latitude + ' e Longitude: ' + coordenadas.longitude);
+                }
+            }
         };
     }
 
