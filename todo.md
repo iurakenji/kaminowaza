@@ -11,6 +11,7 @@
 - [x] Criar tela "Tipos de Pagamentos"
 - [x] Criar tela "Pagamentos"
   - [ ] Rever validação campos
+- [ ] Criar tela "Visualizar evento"
 - [ ] Criar tela "Registros de Pagamentos"
 - [x] Adicionar imagens à tela de usuários
 - [ ] Criar tela "Trajetória"

@@ -9,26 +9,26 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class TecnicaController extends BaseController
 {
-    public function index(string $page = 'index'): string
+    public function index(): string
     {
-        $title = 'Técnicas';
+        $data['title'] = 'Técnicas';
         $tecnicaModel = model(TecnicaModel::class);
         $data['tecnicas'] = $tecnicaModel->findAll();
-        return view('tecnica/' . $page, ['title' => $title, 'data' => $data]);
+        return view('tecnica/index', $data);
     }
 
     public function create(): string
     {
-        $title = 'Criar Nova Técnica';
-        return view('tecnica/create-edit', compact('title'));
+        $data['title'] = 'Criar Nova Técnica';
+        return view('tecnica/create-edit', $data);
     }
 
     public function edit($id): string
     {
         $tecnicaModel = model(TecnicaModel::class);
-        $title = 'Editar Técnica';
-        $tecnica = $tecnicaModel->find($id);
-        return view('tecnica/create-edit', ['title' => $title, 'tecnica' => $tecnica]);
+        $data['title'] = 'Editar Técnica';
+        $data['tecnica'] = $tecnicaModel->find($id);
+        return view('tecnica/create-edit', $data);
     }
 
     public function save($id = null): RedirectResponse

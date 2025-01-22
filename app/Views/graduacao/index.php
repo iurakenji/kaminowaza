@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data['graduacoes'] as $graduacao) : ?>
+                <?php foreach ($graduacoes as $graduacao) : ?>
                     <tr>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
                             <svg class="w-20 h-20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 478.619 184.676" overflow="visible" enable-background="new 0 0 478.619 184.676" xml:space="preserve">

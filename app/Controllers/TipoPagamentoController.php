@@ -9,26 +9,26 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class TipoPagamentoController extends BaseController
 {
-    public function index(string $page = 'index'): string
+    public function index(): string
     {
-        $title = 'Tipos de Pagamentos';
+        $data['title'] = 'Tipos de Pagamentos';
         $tipoPagamentoModel = model(TipoPagamentoModel::class);
         $data['tipos_pagamentos'] = $tipoPagamentoModel->findAll();
-        return view('tipo_pagamento/' . $page, ['title' => $title, 'data' => $data]);
+        return view('tipo_pagamento/index', $data);
     }
 
     public function create(): string
     {
-        $title = 'Criar Tipo de Pagamento';
-        return view('tipo_pagamento/create-edit', compact('title'));
+        $data['title'] = 'Criar Tipo de Pagamento';
+        return view('tipo_pagamento/create-edit', $data);
     }
 
     public function edit($id): string
     {
         $tipoPagamentoModel = model(TipoPagamentoModel::class);
-        $title = 'Editar Tipo de Pagamento';
-        $tipoPagamento = $tipoPagamentoModel->find($id);
-        return view('tipo_pagamento/create-edit', ['title' => $title, 'tipoPagamento' => $tipoPagamento]);
+        $data['title'] = 'Editar Tipo de Pagamento';
+        $data['tipoPagamento'] = $tipoPagamentoModel->find($id);
+        return view('tipo_pagamento/create-edit', $data);
     }
 
     public function save($id = null): RedirectResponse

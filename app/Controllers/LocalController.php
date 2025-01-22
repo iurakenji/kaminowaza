@@ -9,26 +9,26 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class LocalController extends BaseController
 {
-    public function index(string $page = 'index'): string
+    public function index(): string
     {
-        $title = 'Locais';
+        $data['title'] = 'Locais';
         $localModel = model(LocalModel::class);
         $data['locais'] = $localModel->findAll();
-        return view('local/' . $page, ['title' => $title, 'data' => $data]);
+        return view('local/index', $data);
     }
 
     public function create(): string
     {
-        $title = 'Criar Local';
-        return view('local/create-edit', compact('title'));
+        $data['title'] = 'Criar Local';
+        return view('local/create-edit', $data);
     }
 
     public function edit($id): string
     {
         $localModel = model(LocalModel::class);
-        $title = 'Editar Locais';
-        $local = $localModel->find($id);
-        return view('local/create-edit', ['title' => $title, 'local' => $local]);
+        $data['title'] = 'Editar Locais';
+        $data['local'] = $localModel->find($id);
+        return view('local/create-edit', $data);
     }
 
     public function save($id = null): RedirectResponse

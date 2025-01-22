@@ -9,26 +9,26 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class NormaController extends BaseController
 {
-    public function index(string $page = 'index'): string
+    public function index(): string
     {
-        $title = 'Definição de Normas';
+        $data['title'] = 'Definição de Normas';
         $normaModel = model(NormaModel::class);
         $data['normas'] = $normaModel->findAll();
-        return view('norma/' . $page, ['title' => $title, 'data' => $data]);
+        return view('norma/index', $data);
     }
 
     public function create(): string
     {
-        $title = 'Criar Nova Norma';
-        return view('norma/create-edit', compact('title'));
+        $data['title'] = 'Criar Nova Norma';
+        return view('norma/create-edit', $data);
     }
 
     public function edit($id): string
     {
         $normaModel = model(NormaModel::class);
-        $title = 'Editar Tipo de Pagamento';
-        $norma = $normaModel->find($id);
-        return view('norma/create-edit', ['title' => $title, 'norma' => $norma]);
+        $data['title'] = 'Editar Tipo de Pagamento';
+        $data['norma'] = $normaModel->find($id);
+        return view('norma/create-edit', $data);
     }
 
     public function save($id = null): RedirectResponse

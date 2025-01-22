@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data['tecnicas'] as $tecnica) : ?>
+                <?php foreach ($tecnicas as $tecnica) : ?>
                     <tr>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <img src="/images/tecnicas/<?= $tecnica['image_path'] ?>" alt="" class="w-20 h-20">

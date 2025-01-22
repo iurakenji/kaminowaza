@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data['eventos'] as $evento) : ?>
+                <?php foreach ($eventos as $evento) : ?>
                     <tr>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><?= $evento['titulo'] ?> </td>
                         <td class="px-6 py-4 text-center"><?= date('d/m/Y H:i', strtotime($evento['inicio'])) ?> (<?= WEEKDAYS[date('w', strtotime($evento['inicio']))] ?>)</td>

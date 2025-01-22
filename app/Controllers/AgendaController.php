@@ -10,19 +10,19 @@ class AgendaController extends BaseController
     public function index()
     {
         $ocorrenciasModel = model('OcorrenciaModel');
-        $title = 'Agenda';
+        $data['title'] = 'Agenda';
         $request = service('request');
-        $mes = $request->getGet('mes');
-        $ano = $request->getGet('ano');
+        $data['mes'] = $request->getGet('mes');
+        $data['ano'] = $request->getGet('ano');
 
         if (empty($mes)) {
-            $mes = date('m');
+            $data['mes'] = date('m');
         }
         if (empty($ano)) {
-            $ano = date('Y');
+            $data['ano'] = date('Y');
         }
-        $ocorrencias = $ocorrenciasModel->getOcorrencias($mes, $ano);
+        $data['ocorrencias'] = $ocorrenciasModel->getOcorrencias($data['mes'], $data['ano']);
 
-        return view('agenda/index', ['title' => $title, 'mes' => $mes, 'ano' => $ano, 'ocorrencias' => $ocorrencias]);
+        return view('agenda/index', $data);
     }
 }

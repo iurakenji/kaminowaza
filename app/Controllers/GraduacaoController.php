@@ -12,12 +12,12 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class GraduacaoController extends BaseController
 {
-    public function index(string $page = 'index'): string
+    public function index(): string
     {
-        $title = 'Graduações';
+        $data['title'] = 'Graduações';
         $graduacaoModel = model(GraduacaoModel::class);
         $data['graduacoes'] = $graduacaoModel->findAll();
-        return view('graduacao/' . $page, ['title' => $title, 'data' => $data]);
+        return view('graduacao/index', $data);
     }
 
     public function create(): string

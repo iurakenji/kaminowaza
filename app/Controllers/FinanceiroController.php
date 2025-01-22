@@ -9,6 +9,7 @@ class FinanceiroController extends BaseController
 {
     public function index()
     {
-        //
+        $data['title'] = 'Financeiro';
+        return view('financeiro/index', $data);
     }
 }

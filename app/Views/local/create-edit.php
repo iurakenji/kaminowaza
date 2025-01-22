@@ -1,9 +1,24 @@
 <?= $this->extend('layouts/main'); ?>
 <?php helper('form'); ?>
 <?php $this->section('content'); ?>
-<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+
+#map {
+    height: 400px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+
+</style>
+
 <div class="flex flex-col">
     <div class="w-full mx-auto container">
+            <div id="map" style="height: 400px; margin-top: 20px;"></div>
         <?= form_open('local/save' . (isset($local) ? "/$local[id]" : '')) ?>
         <?php if (isset($local['id'])): ?>
             <?= form_hidden('id', $local['id']); ?>
@@ -30,6 +45,39 @@
         </form>
     </div>
 </div>
+
+<script>
+
+    const initialLat = <?= isset($local['latitude']) ? $local['latitude'] : '-27.5954'; ?>;
+    const initialLng = <?= isset($local['longitude']) ? $local['longitude'] : '-48.548'; ?>;
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const map = L.map('map').setView([initialLat, initialLng], 18);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    let marker = L.marker([initialLat, initialLng], { draggable: true }).addTo(map);
+
+    marker.on('dragend', function (e) {
+        const latLng = marker.getLatLng();
+        document.querySelector('input[name="latitude"]').value = latLng.lat;
+        document.querySelector('input[name="longitude"]').value = latLng.lng;
+    });
+
+    map.on('click', function (e) {
+        const { lat, lng } = e.latlng;
+
+        marker.setLatLng(e.latlng);
+
+        document.querySelector('input[name="latitude"]').value = lat;
+        document.querySelector('input[name="longitude"]').value = lng;
+    });
+});
+</script>
 
 
 <?php $this->endSection(); ?>

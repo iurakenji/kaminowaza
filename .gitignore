@@ -5,6 +5,10 @@
 # Ignorar node_modules
 node_modules/
 
+www/images/users
+www/images/tecnicas
+www/images/normas
+
 # OS X
 .DS_Store
 .AppleDouble

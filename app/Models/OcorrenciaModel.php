@@ -22,6 +22,7 @@ class OcorrenciaModel extends Model
         'termino',
         'titulo',
         'observacao',
+        'local_id',
     ];
 
     protected bool $allowEmptyInserts = false;

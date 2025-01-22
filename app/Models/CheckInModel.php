@@ -46,4 +46,49 @@ class CheckInModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getTrajetoria($userId) 
+    {
+        $userModel = model(UserModel::class);
+        $user = $userModel->where('id', $userId)->first();
+        $user['idade'] = date_diff(date_create($user['dn']), date_create('now'))->y;
+        $this->select('*');
+        $this->where('user_id', $userId);
+        $this->orderBy('hora_checkin', 'asc');
+        $result = $this->findAll();
+        $result = [
+            'aluno' => $user,
+            'trajetoria' => [
+                ['title' => 'Treinos Regulares',
+                'event' => '20 aulas',
+                'icon' => 'training'],
+                ['title' => 'Exame de Faixa Laranja',
+                'event' => '20/03/2025',
+                'icon' => 'training'],
+                ['title' => 'Treinos Regulares',
+                'event' => '5 Aulas',
+                'icon' => 'training'],
+                ['title' => 'Seminário',
+                'event' => '16/04/2025',
+                'icon' => 'training'],
+                ['title' => 'Treinos Regulares',
+                'event' => '18 Aulas',
+                'icon' => 'training'],
+                ['title' => 'Exame de Faixa Amarela',
+                'event' => '20/07/2025',
+                'icon' => 'training'],
+                ['title' => 'Treinos Regulares',
+                'event' => '60 Aulas',
+                'icon' => 'training'],
+                ['title' => 'Exame de Faixa: Faixa Roxa',
+                'event' => '20/02/2026',
+                'icon' => 'training'],
+                ['title' => 'Treinos Regulares',
+                'event' => '50 Aulas',
+                'icon' => 'training'],
+            ]
+        ];
+        return $result;
+    }
+
 }

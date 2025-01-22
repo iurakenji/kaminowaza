@@ -11,7 +11,7 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 
 class UserController extends BaseController
 {
-    public function index(string $page = 'index'): string
+    public function index(): string
     {
         $userModel = model(UserModel::class);
         $data['title'] = 'Usuários';
@@ -20,7 +20,7 @@ class UserController extends BaseController
         $data['graduacoes'] = $graduacaoModel->findAll();
         $data['graduacoes'] = array_combine(array_column($data['graduacoes'], 'id'),array_column($data['graduacoes'], 'nome'));
 
-        return view('user/' . $page, $data);
+        return view('user/index', $data);
     }
 
     public function create(): string

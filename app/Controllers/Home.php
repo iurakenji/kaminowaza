@@ -6,14 +6,11 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Home extends BaseController
 {
-    public function index(string $page = 'home'): string
+    public function index(): string
     {
-        //if (! is_file(APPPATH . 'Views/pages/' . $page . '.php')) {
-          //  throw new PageNotFoundException($page);
-        //}
+        $data['title'] = '';
         
-        $title = '';
 
-        return view($page, ['title' => $title]);
+        return view('home', $data);
     }
 }

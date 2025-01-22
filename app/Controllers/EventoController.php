@@ -14,32 +14,32 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 class EventoController extends BaseController
 {
 
-    public function index(string $page = 'index'): string
+    public function index(): string
     {
-        $title = 'Eventos';
+        $data['title'] = 'Eventos';
         $eventoModel = model(EventoModel::class);
         $data['eventos'] = $eventoModel->findAll();
-        return view('evento/' . $page, ['title' => $title, 'data' => $data]);
+        return view('evento/index', $data);
     }
 
     public function create(): string
     {
-        $title = 'Criar evento';
+        $data['title'] = 'Criar evento';
         $locaisModel = model(LocalModel::class);
         $locais = $locaisModel->findAll();
-        $locais = array_combine(array_column($locais, 'id'), array_column($locais, 'nome'));
-        return view('evento/create-edit', compact('title', 'locais'));
+        $data['locais'] = array_combine(array_column($locais, 'id'), array_column($locais, 'nome'));
+        return view('evento/create-edit', $data);
     }
 
     public function edit($id): string
     {
         $eventoModel = model(EventoModel::class);
-        $title = 'Editar evento';
+        $data['title'] = 'Editar evento';
         $locaisModel = model(LocalModel::class);
         $locais = $locaisModel->findAll();
-        $locais = array_combine(array_column($locais, 'id'), array_column($locais, 'nome'));
-        $evento = $eventoModel->find($id);
-        return view('evento/create-edit', ['title' => $title, 'evento' => $evento, 'locais' => $locais]);
+        $data['locais'] = array_combine(array_column($locais, 'id'), array_column($locais, 'nome'));
+        $data['evento'] = $eventoModel->find($id);
+        return view('evento/create-edit', $data);
     }
 
     public function save($id = null): RedirectResponse
@@ -92,7 +92,8 @@ class EventoController extends BaseController
                 'inicio' => $data['inicio'],
                 'termino' => $data['termino'],
                 'titulo' => $data['titulo'],
-                'observacao' => $data['observacao']
+                'observacao' => $data['observacao'],
+                'local_id' => $data['local_id'],
             ];
 
             try {

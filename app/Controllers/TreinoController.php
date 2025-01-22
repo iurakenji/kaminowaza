@@ -13,7 +13,7 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 
 class TreinoController extends BaseController
 {
-    public function index(string $page = 'index'): string
+    public function index(): string
     {
         $data['title'] = 'Treinos';
         $treinoModel = model(TreinoModel::class);
@@ -23,7 +23,7 @@ class TreinoController extends BaseController
         $professores = array_combine(array_column($professores, 'id'),array_column($professores, 'nome'));
         $data['professores'] = $professores;
 
-        return view('treino/' . $page, $data);
+        return view('treino/index', $data);
     }
 
     public function create(): string
@@ -111,7 +111,8 @@ class TreinoController extends BaseController
                             . date('H:i', strtotime($data['inicio'])) 
                             . ' a ' 
                             . date('H:i', strtotime($data['termino'])),
-                'observacao' => $data['observacao']
+                'observacao' => $data['observacao'],
+                'local_id' => $data['local_id'],
             ];
             $errors += $ocorrenciaModel->upsertTreinos($ocorrenciaData);
         } 

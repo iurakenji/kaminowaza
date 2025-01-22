@@ -10,7 +10,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class PagamentoController extends BaseController
 {
-    public function index(string $page = 'index'): string
+    public function index(): string
     {
         $tipoPagamentoModel = model(TipoPagamentoModel::class);
         $data['title'] = 'Criar Novo Pagamento';
@@ -19,7 +19,7 @@ class PagamentoController extends BaseController
 
         $pagamentoModel = model(PagamentoModel::class);
         $data['pagamentos'] = $pagamentoModel->findAll();
-        return view('pagamento/' . $page, $data);
+        return view('pagamento/index', $data);
     }
 
     public function create(): string

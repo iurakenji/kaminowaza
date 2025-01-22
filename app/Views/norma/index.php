@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data['normas'] as $norma) : ?>
+                <?php foreach ($normas as $norma) : ?>
                     <tr>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <img src="/images/normas/<?= $norma['image_path'] ?>" alt="" class="w-20 h-20">
