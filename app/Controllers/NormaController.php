@@ -59,11 +59,11 @@ class NormaController extends BaseController
                         if (file_exists('images/normas/'.$image_path) && is_file('images/normas/'.$image_path)) {
                             unlink('images/normas/'.$image_path);   
                         }
-                        $newName = $image->getRandomName();
-                        $image->move('images/normas', $newName);
-                        $data['image_path'] = $newName;
                     }
                 }
+                $newName = $image->getRandomName();
+                $image->move('images/normas', $newName);
+                $data['image_path'] = $newName;
             }
             if ($isEdit) {
                 try {

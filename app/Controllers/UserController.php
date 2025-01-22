@@ -79,11 +79,11 @@ class UserController extends BaseController
                         if (file_exists('images/users/'.$image_path) && is_file('images/users/'.$image_path)) {
                             unlink('images/users/'.$image_path);   
                         }  
-                        $newName = $image->getRandomName();
-                        $image->move('images/users', $newName);
-                        $data['image_path'] = $newName;
                     }
                 }
+                $newName = $image->getRandomName();
+                $image->move('images/users', $newName);
+                $data['image_path'] = $newName;
             }
             if ($isEdit) {
                 $data['updated_at'] = date('Y-m-d H:i:s');

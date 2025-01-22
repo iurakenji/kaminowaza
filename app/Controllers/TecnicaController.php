@@ -59,11 +59,11 @@ class TecnicaController extends BaseController
                         if (file_exists('images/tecnicas/'.$image_path) && is_file('images/tecnicas/'.$image_path)) {
                             unlink('images/tecnicas/'.$image_path);       
                         }
-                        $newName = $image->getRandomName();
-                        $image->move('images/tecnicas', $newName);
-                        $data['image_path'] = $newName;
                     }
                 }
+                $newName = $image->getRandomName();
+                $image->move('images/tecnicas', $newName);
+                $data['image_path'] = $newName;
             }
             if ($isEdit) {
                 try {
