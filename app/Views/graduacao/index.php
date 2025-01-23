@@ -32,7 +32,7 @@
                                 </g>
                             </svg>
                         </td>
-                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center"><?= $graduacao['nome'] ?> </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center"><?= $graduacao['nome_japones'].' ('.$graduacao['nome'].')' ?> </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center"><?= $graduacao['cor_faixa'] ?> </td>
                         <td class="px-6 py-4 text-center">
                             <a class="me-2 text-blue-900 hover:text-blue-600" href="graduacao/edit/<?= $graduacao['id'] ?>">Editar</a> | 

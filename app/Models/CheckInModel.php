@@ -15,6 +15,7 @@ class CheckInModel extends Model
     protected $allowedFields    = [
         'user_id',
         'ocorrencia_id',
+        'hora_checkin',
     ];
 
     protected bool $allowEmptyInserts = false;

@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/main'); ?>
 <?php $this->section('content'); ?>
     <div class="mx-auto w-auto">
-        <div class="flex md:flex-col lg:flex-col sm:flex-row gap-4">
+        <div class="flex md:flex-col lg:flex-row sm:flex-col gap-4">
             <div class="p-4 bg-white rounded shadow-md dark:bg-gray-800">
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Dados do Aluno</h2>
                 <div class="mt-2">

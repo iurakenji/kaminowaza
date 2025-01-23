@@ -17,7 +17,9 @@ class GraduacaoModel extends Model
         'nome',
         'cor_faixa',
         'valor_exame',
-        'cor'
+        'cor',
+        'ordem',
+        'nome_japones',
     ];
 
     protected bool $allowEmptyInserts = false;

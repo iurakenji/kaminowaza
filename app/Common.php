@@ -83,3 +83,12 @@ use Kint\Kint;
    $feriados = array_combine(array_column($feriados, 'date'), array_column($feriados, 'name'));
    return $feriados;
  }
+
+ function getCidades($ano = null) {
+   $client = service('curlrequest');
+   $url = 'https://brasilapi.com.br/api/cptec/v1/cidade';
+   $response = $client->request('GET', $url, ['verify' => false]);
+   $cidades = json_decode($response->getBody(), true);
+   
+   return $cidades;
+ }

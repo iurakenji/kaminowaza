@@ -13,12 +13,11 @@
     border-radius: 8px;
 }
 
-
 </style>
 
 <div class="flex flex-col">
     <div class="w-full mx-auto container">
-            <div id="map" style="height: 400px; margin-top: 20px;"></div>
+            <div id="map" style="height: 400px; margin-top: 20px; z-index: 0;"></div>
         <?= form_open('local/save' . (isset($local) ? "/$local[id]" : '')) ?>
         <?php if (isset($local['id'])): ?>
             <?= form_hidden('id', $local['id']); ?>

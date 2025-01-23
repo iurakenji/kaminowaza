@@ -5,6 +5,7 @@ namespace Config;
 use CodeIgniter\Config\BaseService;
 use App\Services\AuthService;
 use App\Services\ThemeService;
+use App\Services\LocationService;
 
 /**
  * Services Configuration file.
@@ -48,5 +49,14 @@ class Services extends BaseService
         }
 
         return new ThemeService();
+    }
+
+    public static function location($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('location');
+        }
+
+        return new LocationService();
     }
 }

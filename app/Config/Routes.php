@@ -15,6 +15,7 @@ use CodeIgniter\Router\RouteCollection;
 use App\Controllers\GraduacaoController;
 use App\Controllers\PagamentoController;
 use App\Controllers\FinanceiroController;
+use App\Controllers\NafudakakeController;
 use App\Controllers\RelatoriosController;
 use App\Controllers\TrajetoriaController;
 use App\Controllers\TipoPagamentoController;
@@ -56,6 +57,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->GET('configuracoes', [ConfigController::class, 'index']);
 
     $routes->GET('trajetoria', [TrajetoriaController::class, 'index']);
+
+    $routes->GET('nafudakake', [NafudakakeController::class, 'index']);
 
     $routes->GET('financeiro', [FinanceiroController::class, 'index']);
 

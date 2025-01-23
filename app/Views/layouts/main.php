@@ -1,7 +1,5 @@
 <?php
 
-    use App\Services\AuthService;
-
     $theme = \Config\Services::theme()->getTheme();
 
 ?>
@@ -22,7 +20,7 @@
         <title>Kaminowaza Dojo</title>
     </head>
 
-    <body class="bg-gray-100 rocknroll-one-regular w-screen min-h-screen flex flex-col">
+    <body class="bg-gray-400 rocknroll-one-regular w-screen min-h-screen flex flex-col">
         <header class="p-4 w-full bg-gray-200">
             <?= view_cell('NavBarCell') ?>
         </header>

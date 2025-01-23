@@ -129,7 +129,7 @@ class OcorrenciaModel extends Model
         $last = new DateTime('last day of December');
 
         $errors = [];
-        $this->where('referencia_id', $data['referencia_id'])->where('tipo', 'treino_regular')->delete();   
+        $this->where('referencia_id', $data['referencia_id'])->where('tipo', 'treino_regular')->where('inicio >', date('Y-m-d H:i:s'))->where('termino >=', date('Y-m-d H:i:s'))->delete();   
 
         while ($first <= $last) {
             $first->setTime($startHour, $startMinute);
