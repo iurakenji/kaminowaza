@@ -13,6 +13,9 @@ class CheckInController extends BaseController
     public function index()
     {
         $ocorrenciaModel = model(OcorrenciaModel::class);
+        $checkInModel = model(CheckInModel::class);
+        $checkIns = $checkInModel->where('user_id', session()->get('user')['id'])->findAll();
+        $data['checkins'] = array_values(array_column($checkIns, 'ocorrencia_id'));
         $data['title'] = 'Check-in';
         $data['ocorrencias'] = $ocorrenciaModel->getOcorrencias();
         $localModel = model(LocalModel::class);
@@ -31,7 +34,6 @@ class CheckInController extends BaseController
                 ->where("DATE(inicio) = '$now'")
                 ->orWhere("DATE(termino) = '$now'")
             ->findAll();
-        // $data['ocorrencias'] = array_combine(array_column($data['ocorrencias'], 'id'), array_column($data['ocorrencias'], 'titulo'));
         return view('checkin/index', $data);
     }
 
@@ -55,7 +57,7 @@ class CheckInController extends BaseController
         unset($data['longitude']);
         
         $locationChecked = \Config\Services::location()->checkLocation($data['ocorrencia_id'], $coord);
-        
+
         if (!$locationChecked) {
             return redirect()->back()->withInput()->with('error', 'Localização fora do permitido para o evento.');
         }

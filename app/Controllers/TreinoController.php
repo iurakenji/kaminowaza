@@ -79,11 +79,11 @@ class TreinoController extends BaseController
         $validation->run($data);
         $errors = $validation->getErrors();
 
-        $conflitos = $ocorrenciaModel->checkAvailable($data);
+        // $conflitos = $ocorrenciaModel->checkAvailable($data);
 
-        if (!empty($conflitos)) {
-            return redirect()->back()->withInput()->with('conflitos', $conflitos);
-        }
+        // if (!empty($conflitos)) {
+        //     return redirect()->back()->withInput()->with('conflitos', $conflitos);
+        // }
 
         if (empty($errors)) {
             if ($isEdit) {

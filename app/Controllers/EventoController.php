@@ -65,10 +65,10 @@ class EventoController extends BaseController
         $errors = $validation->getErrors();
 
         
-        $conflitos = $ocorrenciaModel->checkAvailable($data);
-        if (!empty($conflitos)) {
-            return redirect()->back()->withInput()->with('conflitos', $conflitos);
-        }
+        // $conflitos = $ocorrenciaModel->checkAvailable($data);
+        // if (!empty($conflitos)) {
+        //     return redirect()->back()->withInput()->with('conflitos', $conflitos);
+        // }
 
         if (empty($errors)) {
             if ($isEdit) {

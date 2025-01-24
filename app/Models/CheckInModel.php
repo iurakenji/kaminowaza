@@ -48,48 +48,97 @@ class CheckInModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    const TRAJETORIA_ICONS = [
+        'treinos' => 'training',
+        'exame' => 'belt',
+        'seminario' => 'seminar',
+        'outro' => 'training'
+    ];
+
     public function getTrajetoria($userId) 
     {
         $userModel = model(UserModel::class);
         $user = $userModel->where('id', $userId)->first();
         $user['idade'] = date_diff(date_create($user['dn']), date_create('now'))->y;
+
         $this->select('*');
         $this->where('user_id', $userId);
         $this->orderBy('hora_checkin', 'asc');
-        $result = $this->findAll();
+        $checkins = $this->findAll();
+
+        if (!empty($checkins)) {
+
+            $ocorrenciaModel = model(OcorrenciaModel::class);
+            $ocorrencias = $ocorrenciaModel
+                ->whereIn('id', array_column($checkins, 'ocorrencia_id'))
+                ->findAll();
+
+
+            $eventoModel = model(EventoModel::class);
+            $eventos = $eventoModel
+                ->whereIn('id', array_column($ocorrencias, 'referencia_id'))
+                ->findAll();
+
+            $trajetoria = [];
+            $aulasEntreEventos = 0;
+
+            foreach ($checkins as $checkin) {
+                $ocorrencia = array_filter($ocorrencias, function ($o) use ($checkin) {
+                    return $o['id'] === $checkin['ocorrencia_id'];
+                });
+                $ocorrencia = reset($ocorrencia);
+
+                if ($ocorrencia && $ocorrencia['tipo'] === 'evento') {
+
+                    if ($aulasEntreEventos > 0) {
+                        $trajetoria[] = [
+                            'title' => 'Treinos Regulares',
+                            'event' => "{$aulasEntreEventos} Aulas",
+                            'icon' => self::TRAJETORIA_ICONS['treinos'],
+                        ];
+                        $aulasEntreEventos = 0;
+                    }
+
+
+                    $evento = array_filter($eventos, function ($e) use ($ocorrencia) {
+                        return $e['id'] === $ocorrencia['referencia_id'];
+                    });
+                    $evento = reset($evento);
+
+                    if ($evento) {
+                        $trajetoria[] = [
+                            'title' => $evento['titulo'],
+                            'event' => date('d/m/Y', strtotime($evento['inicio'])),
+                            'icon' => self::TRAJETORIA_ICONS[$evento['tipo']],
+                        ];
+                    }
+
+                } elseif ($ocorrencia && $ocorrencia['tipo'] === 'treino') {
+                    $aulasEntreEventos++;
+                }
+            }
+
+
+            if ($aulasEntreEventos > 0) {
+                $trajetoria[] = [
+                    'title' => 'Treinos Regulares',
+                    'event' => "{$aulasEntreEventos} Aulas",
+                    'icon' => self::TRAJETORIA_ICONS['treinos'],
+                ];
+            }
+        } else {
+            $trajetoria = [];
+        }
+
         $result = [
             'aluno' => $user,
-            'trajetoria' => [
-                ['title' => 'Treinos Regulares',
-                'event' => '20 aulas',
-                'icon' => 'training'],
-                ['title' => 'Exame de Faixa Laranja',
-                'event' => '20/03/2025',
-                'icon' => 'training'],
-                ['title' => 'Treinos Regulares',
-                'event' => '5 Aulas',
-                'icon' => 'training'],
-                ['title' => 'Seminário',
-                'event' => '16/04/2025',
-                'icon' => 'training'],
-                ['title' => 'Treinos Regulares',
-                'event' => '18 Aulas',
-                'icon' => 'training'],
-                ['title' => 'Exame de Faixa Amarela',
-                'event' => '20/07/2025',
-                'icon' => 'training'],
-                ['title' => 'Treinos Regulares',
-                'event' => '60 Aulas',
-                'icon' => 'training'],
-                ['title' => 'Exame de Faixa: Faixa Roxa',
-                'event' => '20/02/2026',
-                'icon' => 'training'],
-                ['title' => 'Treinos Regulares',
-                'event' => '50 Aulas',
-                'icon' => 'training'],
-            ]
+            'trajetoria' => $trajetoria
         ];
+
         return $result;
     }
 
+
+
 }
+

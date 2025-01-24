@@ -11,7 +11,7 @@ class NafudakakeController extends BaseController
 {
     public function index()
     {
-
+        
         $data['title'] = 'Nafudakake';
         $graduacaoModel = model(GraduacaoModel::class);
         $graduacoes = $graduacaoModel->orderBy('ordem', 'desc')->findAll();

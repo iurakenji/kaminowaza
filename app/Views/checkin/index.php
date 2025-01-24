@@ -7,15 +7,6 @@
 
 <div x-data="checkinHandler()" x-init="checkCurrentLocation()">
     <div id="map" class="w-auto mx-4" style="height: 30vh; z-index: 0;"></div>
-    <div x-show="locationFailure" class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
-        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-        </svg>
-        <span class="sr-only">Check in não disponível</span>
-        <div>
-            <span class="font-medium">Check in não disponível:  Localização verificada fora do alcance de qualquer evento disponível. Checkin não disponível.</span>
-        </div>
-    </div>
     <div x-show="verifyingLocation" class="flex items-center p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800" role="alert">
         <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
@@ -25,16 +16,7 @@
             <span class="font-medium">Aguarde, verificando localização...</span>
         </div>
     </div>
-    <div x-show="locationSuccess">
-        <div x-show="ocorrencias.length !== 0" class="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
-            <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-            </svg>
-            <span class="sr-only">Sucesso</span>
-            <div>
-                <span class="font-medium">Localização verificada com sucesso! Checkin permitido para as localizações abaixo:</span>
-            </div>
-        </div>
+    <div>
         <div class="w-auto mx-4">
             <span x-show="filteredOcorrencias.length !== 0">Selecione para qual evento deseja fazer checkin:</span>
                 <form action="<?= url_to('checkin/save') ?>" method="post">
@@ -58,20 +40,19 @@
 </div>
 
 <script>
-
 const locais = <?= json_encode($locais); ?>;
 const ocorrencias = <?= json_encode($ocorrencias); ?>;
+const checkins = <?= json_encode($checkins); ?>;
 
 function checkinHandler() {
     return {
-        filteredOcorrencias: {},
+        filteredOcorrencias: ocorrencias,
         selectedOcorrencia: null,
         coordenadas: { latitude: null, longitude: null },
+        ocorrencias: [],
         map: null,
-        locationSuccess: false,
-        locationFailure: false,
+        userMarker: null,
         verifyingLocation: true,
-        allowedLocations: {},
 
         checkCurrentLocation() {
             if (navigator.geolocation) {
@@ -79,86 +60,159 @@ function checkinHandler() {
                     (position) => {
                         this.coordenadas.latitude = position.coords.latitude;
                         this.coordenadas.longitude = position.coords.longitude;
-                        this.allowedLocations = this.getAllowedLocations();
-                        this.filterOcorrencias();
-                        this.locationSuccess = Object.keys(this.allowedLocations).length > 0;
-                        this.locationFailure = !this.locationSuccess;
                         this.verifyingLocation = false;
-                        this.initMap();   
+                        this.initMap();
+                        this.updateMarkers();
                     },
                     (error) => {
                         console.error('Erro ao obter localização:', error);
-                        this.locationSuccess = false;
-                        this.locationFailure = true;
                         this.verifyingLocation = false;
+                        this.initMap();
                     }
                 );
             } else {
                 console.error('Geolocalização não suportada.');
-                this.locationFailure = true;
                 this.verifyingLocation = false;
+                this.initMap();
             }
-        },
-
-        getAllowedLocations() {
-            const locaisDisponiveis = {};
-            for (const key in locais) {
-                const local = locais[key];
-                const distance = this.getDistance(
-                    local.latitude, local.longitude,
-                    this.coordenadas.latitude, this.coordenadas.longitude
-                );
-                if (distance <= (local.raio / 1000)) {
-                    locaisDisponiveis[key] = local;
-                }
-            }
-            return locaisDisponiveis;
-        },
-
-        filterOcorrencias() {
-            this.filteredOcorrencias = ocorrencias.filter(ocorrencia => {
-                return this.allowedLocations[ocorrencia.local_id];
-            }).map(ocorrencia => ({ id: ocorrencia.id, titulo: ocorrencia.titulo }));
         },
 
         initMap() {
             if (!this.map) {
                 this.map = L.map('map').setView(
-                    [this.coordenadas.latitude, this.coordenadas.longitude],
-                    19
+                    [this.coordenadas.latitude || -14.235, this.coordenadas.longitude || -51.925],
+                    10
                 );
 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                 }).addTo(this.map);
+            }
 
-                L.marker([this.coordenadas.latitude, this.coordenadas.longitude]).addTo(this.map)
-                    .bindPopup('Você está aqui.')
-                    .openPopup();
-            } else {
-                this.map.setView(
-                    [this.coordenadas.latitude, this.coordenadas.longitude],
-                    19
-                );
+            if (this.coordenadas.latitude && this.coordenadas.longitude) {
+                this.addUserMarker();
             }
         },
 
         addUserMarker() {
-            L.marker([this.coordenadas.latitude, this.coordenadas.longitude])
-                .addTo(this.map)
+            if (this.userMarker) {
+                this.map.removeLayer(this.userMarker);
+            }
+
+            this.userMarker = L.marker(
+                [this.coordenadas.latitude, this.coordenadas.longitude],
+                { icon: L.icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }) }
+            ).addTo(this.map)
                 .bindPopup('Você está aqui.')
                 .openPopup();
         },
 
+        updateMarkers() {
+            this.map.eachLayer(layer => {
+                if (layer instanceof L.Marker && layer !== this.userMarker) {
+                    this.map.removeLayer(layer);
+                }
+            });
+
+            for (const ocorrencia of ocorrencias) {
+                const local = locais[ocorrencia.local_id];
+
+                if (local) {
+                    const distance = this.getDistance(
+                        local.latitude, 
+                        local.longitude, 
+                        this.coordenadas.latitude, 
+                        this.coordenadas.longitude
+                    );
+
+                    const isCheckedIn = checkins.some(checkin => checkin.ocorrencia_id === ocorrencia.id);
+                    const baseColor = isCheckedIn ? 'black' : ((distance <= local.raio) ? 'green' : 'red');
+
+                    const marker = L.marker(
+                        [local.latitude, local.longitude],
+                        {
+                            icon: L.icon({
+                                iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${baseColor}.png`,
+                                iconSize: [25, 41],
+                                iconAnchor: [12, 41],
+                                popupAnchor: [1, -34],
+                                shadowSize: [41, 41],
+                            }),
+                        }
+                    );
+
+                    marker.bindPopup(`<b>${ocorrencia.titulo}</b> - Distância: ${Math.round(distance * 10) / 10} metros`);
+
+                    marker.on('click', () => {
+                        this.selectedOcorrencia = ocorrencia.id;
+
+                        marker.setIcon(L.icon({
+                            iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png`,
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowSize: [41, 41],
+                        }));
+
+                        this.map.eachLayer(layer => {
+                            if (layer instanceof L.Marker && layer !== marker && layer !== this.userMarker) {
+                                const resetColor = checkins.some(checkin => checkin.ocorrencia_id === ocorrencia.id) ? 'darkgreen' : ((distance <= local.raio) ? 'green' : 'red');
+                                layer.setIcon(L.icon({
+                                    iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${resetColor}.png`,
+                                    iconSize: [25, 41],
+                                    iconAnchor: [12, 41],
+                                    popupAnchor: [1, -34],
+                                    shadowSize: [41, 41],
+                                }));
+                            }
+                        });
+                    });
+
+                    marker.addTo(this.map);
+                } else {
+                    console.warn(`Local com id ${ocorrencia.local_id} não encontrado para a ocorrência ${ocorrencia.nome}`);
+                }
+            }
+        },
+
         adjustMapToEvent() {
-            const ocorrencia = ocorrencias.find(ocorrencia => ocorrencia.id === this.selectedOcorrencia);
-            const selectedLocal = locais[ocorrencia.local_id];
-            if (selectedLocal) {
-                this.map.setView([selectedLocal.latitude, selectedLocal.longitude], 13);
-                L.marker([selectedLocal.latitude, selectedLocal.longitude], { icon: L.icon({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]}) })
-                    .addTo(this.map)
-                    .bindPopup(ocorrencia.titulo)
+            if (!this.selectedOcorrencia) return;
+
+            const eventoSelecionado = ocorrencias.find((e) => e.id == this.selectedOcorrencia);
+            const local = locais[eventoSelecionado.local_id];
+
+            if (local) {
+                this.map.setView([local.latitude, local.longitude], 15);
+
+                L.marker([local.latitude, local.longitude]).addTo(this.map)
+                    .bindPopup(`<b>${eventoSelecionado.nome}</b>`)
                     .openPopup();
+            }
+        },
+
+        checkin() {
+            if (!this.selectedOcorrencia) {
+                alert('Selecione um evento antes de tentar fazer check-in.');
+                return;
+            }
+
+            const ocorrencia = ocorrencias.find(o => o.id == this.selectedOcorrencia);
+            const local = locais[ocorrencia.local_id];
+
+            if (!local) {
+                alert('Local não encontrado.');
+                return;
+            }
+
+            const distance = this.getDistance(
+                local.latitude, local.longitude,
+                this.coordenadas.latitude, this.coordenadas.longitude
+            );
+
+            if (distance <= local.raio) {
+                alert('Check-in realizado com sucesso!');
+            } else {
+                alert('Você está fora do alcance permitido para este evento.');
             }
         },
 
@@ -172,13 +226,11 @@ function checkinHandler() {
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             const distance = R * c;
-            return distance;
-            },
+            return distance * 1000;
+        },
     };
 }
-
-
-
 </script>
+
 
 <?php $this->endSection(); ?>

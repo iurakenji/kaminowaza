@@ -29,7 +29,7 @@ class LocationService
         $a = sin($dLat / 2) * sin($dLat / 2) +
             cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) * sin($dLon / 2);
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-        $distance = $r * $c;
+        $distance = $r * $c * 1000;
 
         if ($distance > $raio) {
             return false;

@@ -148,7 +148,7 @@
                 <p>Página renderizada em {elapsed_time} segundos usando {memory_usage} MB de memória. - Ambiente: <?= ENVIRONMENT ?></p>
             </div>
         <?php endif; ?>    
-        <div>© <?= date('Y') ?> Kaminowaza Dojo - Logado como: <strong><?= \Config\Services::auth()->user()['username'] ?></strong>. Todos os direitos reservados.</div>
+        <div class="py-3">© <?= date('Y') ?> Desenvolvido Por Kendji Iura, em prol do Instituto Sérgio Murilo Pereira e Kaminowaza Dojo - Logado como: <strong><?= \Config\Services::auth()->user()['username'] ?></strong>. Todos os direitos reservados.</div>
     </footer>
 
 
@@ -160,3 +160,62 @@
     <?= $this->renderSection('scripts') ?>
     </body>
 </html>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+
+const deleteButtons = document.querySelectorAll(".delete_button");
+const modal = document.getElementById("popup-confirm");
+const confirmButton = modal.querySelector("button.text-white.bg-red-600");
+let currentHref = null;
+
+const alerts = document.querySelectorAll('#alert-border-3, #alert-border-2');
+alerts.forEach((elemento) => {
+    setTimeout(() => {
+        if (elemento) {
+            elemento.style.display = 'none';
+        }
+    }, 5000);   
+});
+
+deleteButtons.forEach(button => {
+    button.addEventListener("click", function (event) {
+        event.preventDefault();
+        currentHref = this.href;
+        if (modal) {
+            modal.classList.remove("hidden");
+        }
+    });
+});
+
+confirmButton.addEventListener("click", function () {
+    if (currentHref) {
+        window.location.href = currentHref;
+    }
+});
+
+initCloseModalButtons();
+
+});
+
+function initCloseModalButtons() {
+document.addEventListener('click', (event) => {
+    const closeButton = event.target.closest('.close-modal');
+    if (closeButton) {
+        const modalId = closeButton.dataset.modalId;
+        const modal = document.getElementById(modalId);
+
+        if (modal) {
+            // modal.classList.add("hidden");
+             modal.style.display = 'none'; // Oculta a modal
+            console.log(`Modal ${modalId} foi fechada.`);
+        } else {
+            console.warn(`Modal com ID ${modalId} não encontrada.`);
+        }
+    }
+});
+}
+
+
+</script>

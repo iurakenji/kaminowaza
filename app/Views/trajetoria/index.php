@@ -1,5 +1,28 @@
 <?= $this->extend('layouts/main'); ?>
+<?php
+    helper('form'); 
+    $user = session('user');
+?>
 <?php $this->section('content'); ?>
+<?php if (in_array($user['tipo'], ['admin', 'professor'])): ?>
+    
+        <?= form_open('trajetoria', ['method' => 'get']) ?>
+    <div class="flex justify-center mb-4">
+        <div class="flex flex-row items-center mt-3">
+            <label class="block mb-2 text-sm me-2 font-medium text-gray-900 dark:text-white" for="aluno">Aluno</label>
+            <select name="aluno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                <option value="" selected>Selecione...</option>
+                <?php foreach ($alunos as $id => $value): ?>
+                    <option value="<?= $id ?>" <?= isset($selectedUser) && $selectedUser == $id ? 'selected' : '' ?>><?= $value ?></option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit" class="ml-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                Pesquisar
+            </button>
+        </div>
+    </div>
+    <?= form_close() ?>
+<?php endif; ?>
     <div class="mx-auto w-auto">
         <div class="flex md:flex-col lg:flex-row sm:flex-col gap-4">
             <div class="p-4 bg-white rounded shadow-md dark:bg-gray-800">

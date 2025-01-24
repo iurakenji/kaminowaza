@@ -15,10 +15,10 @@ class AgendaController extends BaseController
         $data['mes'] = $request->getGet('mes');
         $data['ano'] = $request->getGet('ano');
 
-        if (empty($mes)) {
+        if (empty($data['mes'])) {
             $data['mes'] = date('m');
         }
-        if (empty($ano)) {
+        if (empty($data['ano'])) {
             $data['ano'] = date('Y');
         }
         $data['ocorrencias'] = $ocorrenciasModel->getOcorrencias($data['mes'], $data['ano']);

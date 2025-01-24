@@ -14,6 +14,7 @@
 - [ ] Criar tela "Endereços"
   - [ ] Rever validação campos
 - [ ] Criar tela "Visualizar evento"
+- [ ] Criar tela "Aniversariantes"
 - [ ] Criar Dashboard (tela inicial)
 - [ ] Criar tela de inscrições para eventos
 - [ ] Criar Galeria de Fotos
