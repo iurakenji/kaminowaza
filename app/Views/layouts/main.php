@@ -169,8 +169,8 @@ const deleteButtons = document.querySelectorAll(".delete_button");
 const modal = document.getElementById("popup-confirm");
 const confirmButton = modal.querySelector("button.text-white.bg-red-600");
 let currentHref = null;
-
 const alerts = document.querySelectorAll('#alert-border-3, #alert-border-2');
+
 alerts.forEach((elemento) => {
     setTimeout(() => {
         if (elemento) {
