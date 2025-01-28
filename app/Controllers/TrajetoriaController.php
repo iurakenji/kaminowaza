@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\CheckInModel;
+use App\Models\GraduacaoModel;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -12,6 +13,9 @@ class TrajetoriaController extends BaseController
     public function index()
     {
         $userModel = model(UserModel::class);
+        $graduacaoModel = model(GraduacaoModel::class);
+        $graduacoes = $graduacaoModel->findAll();
+        $data['graduacoes'] = array_combine(array_column($graduacoes, 'id'),array_column($graduacoes, 'nome'));
         $data['alunos'] = $userModel->where('username !=', 'admin')->where('tipo', 'aluno')->orderBy('graduacao', 'desc')->orderBy('inicio_treinos', 'asc')->findAll();
         $data['alunos'] = array_combine(array_column($data['alunos'], 'id'),array_column($data['alunos'], 'nome'));
         $data['title'] = 'Trajetoria';

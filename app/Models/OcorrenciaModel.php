@@ -118,7 +118,7 @@ class OcorrenciaModel extends Model
         $weekDay = $data['dia'];
         unset($data['dia']);
         $weekDay = date('l', strtotime("Sunday + $weekDay days"));
-        $first = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
+        $first = new DateTime($data['inicio_vigencia'], new DateTimeZone('America/Sao_Paulo'));
         $first->modify('next ' . $weekDay);
 
         $startHour = explode(':', $data['inicio'])[0];
@@ -126,7 +126,7 @@ class OcorrenciaModel extends Model
         $endHour = explode(':', $data['termino'])[0];
         $endMinute = explode(':', $data['termino'])[1];
 
-        $last = new DateTime('last day of December');
+        $last = new DateTime($data['fim_vigencia'], new DateTimeZone('America/Sao_Paulo'));
 
         $errors = [];
         $this->where('referencia_id', $data['referencia_id'])->where('tipo', 'treino_regular')->where('inicio >', date('Y-m-d H:i:s'))->where('termino >=', date('Y-m-d H:i:s'))->delete();   

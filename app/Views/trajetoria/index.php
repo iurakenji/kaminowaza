@@ -25,15 +25,15 @@
 <?php endif; ?>
     <div class="mx-auto w-auto">
         <div class="flex md:flex-col lg:flex-row sm:flex-col gap-4">
-            <div class="p-4 bg-white rounded shadow-md dark:bg-gray-800">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Dados do Aluno</h2>
-                <div class="mt-2">
-                    <div class="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+            <div class="p-4 bg-white rounded shadow-md dark:bg-gray-800 flex flex-col items-center">
+                <h2 class="text-lg mb-4 font-semibold text-gray-900 dark:text-gray-100">Dados do Aluno</h2>
+                <div class="mt-2 flex flex-col items-center">
+                    <div class="w-16 h-16 mb-6 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                         <img src="<?= '/images/users/'. $aluno['image_path'] ?? '' ?>" alt="Imagem" class="object-cover">
                     </div>
                     <p class="text-sm pb-4 text-gray-600 dark:text-gray-300">Nome: <?= $aluno['nome'] ?? 'Não informado' ?></p>
                     <p class="text-sm pb-4 text-gray-600 dark:text-gray-300">Idade: <?= $aluno['idade'] ?? 'Não informado' ?></p>
-                    <p class="text-sm pb-4 text-gray-600 dark:text-gray-300">Graduação: <?= $aluno['graduacao'] ?? 'Não informado' ?></p>
+                    <p class="text-sm pb-4 text-gray-600 dark:text-gray-300">Graduação: <?= $graduacoes[$aluno['graduacao']] ?? 'Não informado' ?></p>
                 </div>
             </div>
             <ol class="relative m-4 p-4 text-gray-500 border-s border-gray-600 dark:border-gray-700 dark:text-gray-400">                  

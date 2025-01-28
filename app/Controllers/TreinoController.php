@@ -104,6 +104,8 @@ class TreinoController extends BaseController
                 'tipo' => 'treino_regular',
                 'inicio' => $data['inicio'],
                 'termino' => $data['termino'],
+                'inicio_vigencia' => $data['inicio_vigencia'],
+                'fim_vigencia' => $data['fim_vigencia'],
                 'referencia_id' => $id ?: $inserted,
                 'titulo' => 'Treino: ' 
                             . WEEKDAYS[$data['dia']] 

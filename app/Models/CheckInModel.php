@@ -51,6 +51,7 @@ class CheckInModel extends Model
     const TRAJETORIA_ICONS = [
         'treinos' => 'training',
         'exame' => 'belt',
+        'evento' => 'training',
         'seminario' => 'seminar',
         'outro' => 'training'
     ];
@@ -88,6 +89,11 @@ class CheckInModel extends Model
                 });
                 $ocorrencia = reset($ocorrencia);
 
+                if ($ocorrencia && $ocorrencia['tipo'] === 'treino_regular') {
+                    $aulasEntreEventos++;
+                    continue;
+                }
+
                 if ($ocorrencia && $ocorrencia['tipo'] === 'evento') {
 
                     if ($aulasEntreEventos > 0) {
@@ -99,32 +105,15 @@ class CheckInModel extends Model
                         $aulasEntreEventos = 0;
                     }
 
-
-                    $evento = array_filter($eventos, function ($e) use ($ocorrencia) {
-                        return $e['id'] === $ocorrencia['referencia_id'];
-                    });
-                    $evento = reset($evento);
-
-                    if ($evento) {
+                    if ($ocorrencia) {
                         $trajetoria[] = [
-                            'title' => $evento['titulo'],
-                            'event' => date('d/m/Y', strtotime($evento['inicio'])),
-                            'icon' => self::TRAJETORIA_ICONS[$evento['tipo']],
+                            'title' => $ocorrencia['titulo'],
+                            'event' => date('d/m/Y', strtotime($ocorrencia['inicio'])),
+                            'icon' => self::TRAJETORIA_ICONS[$ocorrencia['tipo']],
                         ];
                     }
 
-                } elseif ($ocorrencia && $ocorrencia['tipo'] === 'treino') {
-                    $aulasEntreEventos++;
                 }
-            }
-
-
-            if ($aulasEntreEventos > 0) {
-                $trajetoria[] = [
-                    'title' => 'Treinos Regulares',
-                    'event' => "{$aulasEntreEventos} Aulas",
-                    'icon' => self::TRAJETORIA_ICONS['treinos'],
-                ];
             }
         } else {
             $trajetoria = [];
@@ -134,7 +123,6 @@ class CheckInModel extends Model
             'aluno' => $user,
             'trajetoria' => $trajetoria
         ];
-
         return $result;
     }
 
