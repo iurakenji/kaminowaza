@@ -7,13 +7,14 @@
   - [x] Ajustar tabelas eventos, treinos e ocorrencias para comportar localização
 - [ ] Componentizar estruturas de frontend
 - [x] Criar sistema de verificação de localização no Checkin
-  - [ ] Melhorar a visualização dos eventos mostrados
+  - [x] Melhorar a visualização dos eventos mostrados
 - [x] Criar tela "Normas do Dojo"
 - [x] Criar tela "Tipos de Pagamentos"
 - [x] Criar tela "Pagamentos"
 - [ ] Criar tela "Endereços"
   - [ ] Rever validação campos
 - [ ] Criar tela "Visualizar evento"
+- [ ] Criar lógica para alteração dos eventos visualizados
 - [ ] Criar tela "Aniversariantes"
 - [ ] Criar Dashboard (tela inicial)
 - [ ] Criar tela de inscrições para eventos

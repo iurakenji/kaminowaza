@@ -25,7 +25,7 @@
 <?php endif; ?>
     <div class="mx-auto w-auto">
         <div class="flex md:flex-col lg:flex-row sm:flex-col gap-4">
-            <div class="p-4 bg-white rounded shadow-md dark:bg-gray-800 flex flex-col items-center">
+            <div class="p-4 bg-gray-200 rounded shadow-md dark:bg-gray-800 flex flex-col items-center">
                 <h2 class="text-lg mb-4 font-semibold text-gray-900 dark:text-gray-100">Dados do Aluno</h2>
                 <div class="mt-2 flex flex-col items-center">
                     <div class="w-16 h-16 mb-6 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
@@ -50,7 +50,7 @@
                 <li class="mb-10 ms-6">
                     <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-gray-700">
                         <svg class="w-8 h-8" width="24" height="24">
-                            <use xlink:href="images/trajetoria-sprites.svg#<?= $step['icon'] ?>"></use>
+                            <use href="images/trajetoria-sprites.svg#<?= $step['icon'] ?>"></use>
                         </svg>
                     </span>
                     <h3 class="font-medium leading-tight"><?= $step['title'] ?></h3>
