@@ -50,7 +50,7 @@
                 <li class="mb-10 ms-6">
                     <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-gray-700">
                         <svg class="w-8 h-8" width="24" height="24">
-                            <use href="images/trajetoria-sprites.svg#<?= $step['icon'] ?>"></use>
+                            <use xlink:href="/images/svg/trajetoria-sprites.svg#<?= $step['icon'] ?>"></use>
                         </svg>
                     </span>
                     <h3 class="font-medium leading-tight"><?= $step['title'] ?></h3>

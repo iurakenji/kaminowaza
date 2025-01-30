@@ -51,9 +51,9 @@ class CheckInModel extends Model
     const TRAJETORIA_ICONS = [
         'treinos' => 'training',
         'exame' => 'belt',
-        'evento' => 'training',
+        'evento' => 'ponto',
         'seminario' => 'seminar',
-        'outro' => 'training'
+        'outro' => 'belt'
     ];
 
     public function getTrajetoria($userId) 
