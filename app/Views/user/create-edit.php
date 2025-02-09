@@ -60,14 +60,57 @@
                 <label for="inicio_treinos">Início dos Treinos</label>
                 <?= form_input('inicio_treinos', isset($user) ? $user['inicio_treinos'] : '', ['required' => 'required'], 'date'); ?>
             </div>
-            <div class="flex flex-col">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="data">Imagem</label>
-                <?= form_upload('image_path', isset($user) && $user['image_path'] ? $user['image_path'] : '', ['class' => 'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500']); ?>
+            <div class="flex flex-col mt-3" x-data="imageUploader">
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imagem</label>
+
+                <div class="border-2 border-dashed p-4 text-center cursor-pointer"
+                    @dragover.prevent
+                    @drop.prevent="handleDrop">
+                    <p class="text-gray-500">Arraste ou cole uma imagem aqui</p>
+                    <template x-if="preview">
+                        <img :src="preview" class="mt-2 w-32 h-32 object-cover mx-auto rounded">
+                    </template>
+                </div>
+
+                <?= form_upload('image_path', '', ['id' => 'imageUpload', 'class' => 'hidden', 'x-ref' => 'fileInput', '@change' => 'handleFile']); ?>
+
+                <button type="button" class="mt-2 p-2 bg-gray-200 rounded text-sm" @click="$refs.fileInput.click()">Escolher Arquivo</button>
             </div>
+
             <div class="flex justify-end mt-3">
                 <?= form_submit('submit', 'Salvar', ['class' => 'font-bold bg-stone-400 text-slate-100 p-4 rounded']); ?>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('imageUploader', () => ({
+        preview: "<?= isset($user) && $user['image_path'] ? base_url('/uploads/' . $user['image_path']) : '' ?>",
+        handleFile(event) {
+            const file = event.target.files[0];
+            this.previewImage(file);
+        },
+        handleDrop(event) {
+            event.preventDefault();
+            const file = event.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                this.previewImage(file);
+                this.setFileInput(file);
+            }
+        },
+        previewImage(file) {
+            const reader = new FileReader();
+            reader.onload = e => this.preview = e.target.result;
+            reader.readAsDataURL(file);
+        },
+        setFileInput(file) {
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            this.$refs.fileInput.files = dataTransfer.files;
+        }
+    }));
+});
+</script>
 <?php $this->endSection(); ?>

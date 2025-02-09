@@ -11,6 +11,20 @@ class Home extends BaseController
         $data['title'] = '';
         $data['cards'] = [];
 
-        return view('home', $data);
+        return view('home/home', $data);
+    }
+
+    public function dash(): string
+    {
+        $data['title'] = 'Dashboard';
+
+        return view('home/dash', $data);
+    }
+
+    public function estatuto(): string
+    {
+        $data['title'] = 'Estatuto do Instituto Sergio Murilo Pereira';
+
+        return view('home/estatuto', $data);
     }
 }

@@ -54,6 +54,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     $routes->GET('dash', [Home::class, 'dash']);
 
+    $routes->GET('estatuto', [Home::class, 'estatuto']);
+
     $routes->GET('configuracoes', [ConfigController::class, 'index']);
 
     $routes->GET('trajetoria', [TrajetoriaController::class, 'index']);

@@ -12,8 +12,9 @@
                     <?= $value['graduacao']['nome'] . ' (Faixa ' . $value['graduacao']['cor_faixa'] . ')' ?>
                 </h6>
                 <ul style="writing-mode: vertical-rl; text-orientation: upright;"  class="flex flex-col gap-2 w-full">
-                    <?php foreach ($value['alunos'] as $nome) : ?>
-                        <li class="text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 p-2 rounded-lg shadow">
+                    <?php foreach ($value['alunos'] as $nome => $imagem) : ?>
+                        <li class="text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 p-2 rounded-lg shadow flex flex-row items-center">
+                            <img src="<?= base_url( $imagem) ?>" alt="<?= $nome ?>" class="w-8 h-8 rounded-full mb-2">
                             <?= $nome ?>
                         </li>
                     <?php endforeach; ?>

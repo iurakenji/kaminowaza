@@ -26,7 +26,12 @@ class NafudakakeController extends BaseController
             $alunosGrad = array_filter($alunos, function ($aluno) use ($graduacao) {
                 return $aluno['graduacao'] == $graduacao['id'];
             });
-            $alunosGrad = array_column($alunosGrad, 'nome');
+            $alunosGrad = array_combine(
+                array_column($alunosGrad, 'nome'),
+                array_map(function($aluno) {
+                    return isset($aluno['imagem']) ? 'images/users/'.$aluno['imagem'] : 'images/svg/no-image.svg';
+                }, $alunosGrad)
+            );
             if (!empty($alunosGrad)) {
                 $data['nafudakake'][$graduacao['id']]['alunos'] = $alunosGrad;
                 $data['nafudakake'][$graduacao['id']]['graduacao'] = $graduacao;
