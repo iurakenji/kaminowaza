@@ -129,21 +129,51 @@ class OcorrenciaModel extends Model
         $last = new DateTime($data['fim_vigencia'], new DateTimeZone('America/Sao_Paulo'));
 
         $errors = [];
-        $this->where('referencia_id', $data['referencia_id'])->where('tipo', 'treino_regular')->where('inicio >', date('Y-m-d H:i:s'))->where('termino >=', date('Y-m-d H:i:s'))->delete();   
+
+        $this->where('referencia_id', $data['referencia_id'])
+            ->where('tipo', 'treino_regular')
+            ->where('inicio >', date('Y-m-d H:i:s'))
+            ->where('termino >=', date('Y-m-d H:i:s'))
+            ->delete();
+
+        $ocorrenciasExistentes = $this->where('referencia_id', $data['referencia_id'])
+            ->where('tipo', 'treino_regular')
+            ->where('inicio <', date('Y-m-d H:i:s'))
+            ->where('termino <=', date('Y-m-d H:i:s'))
+            ->findAll();
+
+        $ocorrenciasPorData = [];
+        foreach ($ocorrenciasExistentes as $ocorrencia) {
+            $dataOcorrencia = date('Y-m-d', strtotime($ocorrencia['inicio']));
+            $ocorrenciasPorData[$dataOcorrencia] = $ocorrencia;
+        }
 
         while ($first <= $last) {
+            $dataOcorrencia = $first->format('Y-m-d');
             $first->setTime($startHour, $startMinute);
             $data['inicio'] = $first->format('Y-m-d H:i:s');
 
             $first->setTime($endHour, $endMinute);
             $data['termino'] = $first->format('Y-m-d H:i:s');
-            try {
-                $this->insert($data);
-            } catch (\Throwable $th) {
-                $errors[] = $th->getMessage();
+
+            if (isset($ocorrenciasPorData[$dataOcorrencia])) {
+                $ocorrenciaId = $ocorrenciasPorData[$dataOcorrencia]['id'];
+                try {
+                    $this->update($ocorrenciaId, $data);
+                } catch (\Throwable $th) {
+                    $errors[] = $th->getMessage();
+                }
+            } else {
+                try {
+                    $this->insert($data);
+                } catch (\Throwable $th) {
+                    $errors[] = $th->getMessage();
+                }
             }
+
             $first->modify('+1 week');
         }
+
         return $errors;
     }
 
