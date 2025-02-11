@@ -65,7 +65,8 @@
 
                 <div class="border-2 border-dashed p-4 text-center cursor-pointer"
                     @dragover.prevent
-                    @drop.prevent="handleDrop">
+                    @drop.prevent="handleDrop"
+                    @paste="handlePaste">
                     <p class="text-gray-500">Arraste ou cole uma imagem aqui</p>
                     <template x-if="preview">
                         <img :src="preview" class="mt-2 w-32 h-32 object-cover mx-auto rounded">
@@ -87,7 +88,7 @@
 <script>
 document.addEventListener('alpine:init', () => {
     Alpine.data('imageUploader', () => ({
-        preview: "<?= isset($user) && $user['image_path'] ? base_url('/uploads/' . $user['image_path']) : '' ?>",
+        preview: "<?= isset($user) && $user['image_path'] ? base_url('/images/users/' . $user['image_path']) : '' ?>",
         handleFile(event) {
             const file = event.target.files[0];
             this.previewImage(file);
@@ -98,6 +99,17 @@ document.addEventListener('alpine:init', () => {
             if (file && file.type.startsWith('image/')) {
                 this.previewImage(file);
                 this.setFileInput(file);
+            }
+        },
+        handlePaste(event) {
+            const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+            for (const item of items) {
+                if (item.type.startsWith('image/')) {
+                    const file = item.getAsFile();
+                    this.previewImage(file);
+                    this.setFileInput(file);
+                    break;
+                }
             }
         },
         previewImage(file) {

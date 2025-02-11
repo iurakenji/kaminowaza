@@ -32,52 +32,73 @@
     </form>
 
     <div class="overflow-x-auto">
-    <table class="w-full table-fixed border-collapse border border-gray-300">
-        <thead>
-            <tr>
-                <th class="w-1/7 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase border border-gray-300">Dom</th>
-                <th class="w-1/7 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase border border-gray-300">Seg</th>
-                <th class="w-1/7 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase border border-gray-300">Ter</th>
-                <th class="w-1/7 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase border border-gray-300">Qua</th>
-                <th class="w-1/7 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase border border-gray-300">Qui</th>
-                <th class="w-1/7 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase border border-gray-300">Sex</th>
-                <th class="w-1/7 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase border border-gray-300">Sáb</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $firstDayOfMonth = date('w', strtotime($ano . '-' . $mes . '-01'));
-            $daysInMonth = date('t', strtotime($ano . '-' . $mes . '-01'));
-            $currentDay = 1;
-
-            for ($week = 0; $week < ceil(($daysInMonth + $firstDayOfMonth) / 7); $week++):
-            ?>
+        <table class="w-full table-fixed border-collapse border border-gray-300">
+            <thead>
                 <tr>
-                    <?php for ($day = 0; $day < 7; $day++): ?>
-                        <td class="w-1/7 px-4 py-4 h-20 whitespace-normal break-words border border-gray-300 text-center align-top">
-                            <?php if ($week === 0 && $day < $firstDayOfMonth || $currentDay > $daysInMonth): ?>
-                                <!-- Empty Cell -->
-                            <?php else: ?>
-                                <?php if (date('Y-m-d') == $ano . '-' . $mes . '-' . str_pad($currentDay, 2, '0', STR_PAD_LEFT)): ?>
-                                    <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-indigo-600 rounded-full"><?= $currentDay ?></span>
-                                <?php else: ?>
-                                    <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-gray-900"><?= $currentDay ?></span>
-                                <?php endif; ?>
-                                <div class="mt-2">
-                                    <?php foreach ($ocorrencias as $ocorrencia): ?>
-                                        <?php if (date('Y-m-d', strtotime($ocorrencia['inicio'])) == $ano . '-' . $mes . '-' . str_pad($currentDay, 2, '0', STR_PAD_LEFT)): ?>
-                                            <div class="text-sm font-semibold text-indigo-600 break-words"><?= $ocorrencia['titulo'] ?></div>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </div>
-                                <?php $currentDay++; ?>
-                            <?php endif; ?>
-                        </td>
-                    <?php endfor; ?>
+                    <th class="w-1/7 px-2 sm:px-6 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-500 uppercase border border-gray-300">Dom</th>
+                    <th class="w-1/7 px-2 sm:px-6 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-500 uppercase border border-gray-300">Seg</th>
+                    <th class="w-1/7 px-2 sm:px-6 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-500 uppercase border border-gray-300">Ter</th>
+                    <th class="w-1/7 px-2 sm:px-6 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-500 uppercase border border-gray-300">Qua</th>
+                    <th class="w-1/7 px-2 sm:px-6 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-500 uppercase border border-gray-300">Qui</th>
+                    <th class="w-1/7 px-2 sm:px-6 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-500 uppercase border border-gray-300">Sex</th>
+                    <th class="w-1/7 px-2 sm:px-6 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-500 uppercase border border-gray-300">Sáb</th>
                 </tr>
-            <?php endfor; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php
+                $firstDayOfMonth = date('w', strtotime($ano . '-' . $mes . '-01'));
+                $daysInMonth = date('t', strtotime($ano . '-' . $mes . '-01'));
+                $currentDay = 1;
+
+                for ($week = 0; $week < ceil(($daysInMonth + $firstDayOfMonth) / 7); $week++):
+                ?>
+                    <tr>
+                        <?php for ($day = 0; $day < 7; $day++): ?>
+                            <td class="w-1/7 px-2 sm:px-4 py-2 sm:py-4 h-20 min-h-[5rem] whitespace-normal break-words border border-gray-300 text-center align-top overflow-y-auto">
+                                <?php if ($week === 0 && $day < $firstDayOfMonth || $currentDay > $daysInMonth): ?>
+                                    <!-- Célula vazia -->
+                                <?php else: ?>
+                                    <?php if (date('Y-m-d') == $ano . '-' . $mes . '-' . str_pad($currentDay, 2, '0', STR_PAD_LEFT)): ?>
+                                        <span class="inline-flex items-center justify-center px-2 py-1 text-[10px] sm:text-xs font-bold leading-none text-white bg-indigo-600 rounded-full"><?= $currentDay ?></span>
+                                    <?php else: ?>
+                                        <span class="inline-flex items-center justify-center px-2 py-1 text-[10px] sm:text-xs font-bold leading-none text-gray-900"><?= $currentDay ?></span>
+                                    <?php endif; ?>
+                                    <div class="mt-2">
+                                        <?php foreach ($ocorrencias as $ocorrencia): ?>
+                                            <?php if (date('Y-m-d', strtotime($ocorrencia['inicio'])) == $ano . '-' . $mes . '-' . str_pad($currentDay, 2, '0', STR_PAD_LEFT)): ?>
+                                                <div x-data="{ truncatedTitle: '<?= $ocorrencia['titulo'] ?>', isTruncated: true, showModal: false, modalData: {} }"
+                                                    @touchstart="showModal = true; modalData = <?= htmlspecialchars(json_encode($ocorrencia), ENT_QUOTES, 'UTF-8') ?>"
+                                                    @touchend="showModal = false"
+                                                    @click="showModal = true; modalData = <?= htmlspecialchars(json_encode($ocorrencia), ENT_QUOTES, 'UTF-8') ?>"
+                                                    class="cursor-pointer">
+                                                    <div x-text="isTruncated ? truncatedTitle.split(' ')[0] : truncatedTitle" class="sm:text-[0.3rem] text-xs font-semibold text-indigo-600 break-words"></div>
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <?php $currentDay++; ?>
+                                <?php endif; ?>
+                            </td>
+                        <?php endfor; ?>
+                    </tr>
+                <?php endfor; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div x-data="{ showModal: false, modalData: {} }"
+     x-show="showModal"
+     @touchstart.away="showModal = false"
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-96">
+        <h2 class="text-xl font-semibold text-indigo-600" x-text="modalData.titulo"></h2>
+        <p class="text-gray-700 mt-2" x-text="modalData.observacao"></p>
+        <p class="text-gray-500 mt-2" x-text="'Início: ' + modalData.inicio"></p>
+        <p class="text-gray-500 mt-2" x-text="'Término: ' + modalData.termino"></p>
+        <button @click="showModal = false" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 focus:outline-none">
+            Fechar
+        </button>
     </div>
 </div>
 

@@ -29,7 +29,7 @@ class NafudakakeController extends BaseController
             $alunosGrad = array_combine(
                 array_column($alunosGrad, 'nome'),
                 array_map(function($aluno) {
-                    return isset($aluno['imagem']) ? 'images/users/'.$aluno['imagem'] : 'images/svg/no-image.svg';
+                    return isset($aluno['image_path']) ? 'images/users/'.$aluno['image_path'] : 'images/svg/no-image.svg';
                 }, $alunosGrad)
             );
             if (!empty($alunosGrad)) {
