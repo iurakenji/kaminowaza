@@ -64,6 +64,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     $routes->GET('financeiro', [FinanceiroController::class, 'index']);
 
+    $routes->GET('doacoes', [FinanceiroController::class, 'doacao']);
+
     $routes->GET('tipo_pagamento', [TipoPagamentoController::class, 'index']);
     $routes->GET('tipo_pagamento/create', [TipoPagamentoController::class, 'create']);
     $routes->GET('tipo_pagamento/edit/(:num)', [TipoPagamentoController::class, 'edit']);

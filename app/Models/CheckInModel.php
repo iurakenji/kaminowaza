@@ -16,6 +16,7 @@ class CheckInModel extends Model
         'user_id',
         'ocorrencia_id',
         'hora_checkin',
+        'validado',
     ];
 
     protected bool $allowEmptyInserts = false;

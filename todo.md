@@ -35,6 +35,7 @@
 - [x] Criar tela "Pagamentos"
 - [ ] Gerar Contrato
 - [ ] Assinatura de Contrato
+- [ ] Doações por PIX
 
 ### OUTROS
 
