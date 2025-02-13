@@ -1,6 +1,9 @@
 <?php
     $theme = \Config\Services::theme()->getTheme();
 ?>
+<style>
+    <?= $theme['theme_css']; ?>
+</style>
 <!doctype html>
 <html lang="pt-BR">
     <head>
@@ -78,7 +81,7 @@
             </div>
         </main>
 
-        <footer class="px-1 bg-gradient-to-r to-teal-400 via-teal-700 from-teal-800 shadow-teal-600/20 dark:shadow-lg dark:shadow-teal-800/80 border-t border-gray-200 text-xs text-gray-200 dark:text-gray-400 text-center">
+        <footer class="px-1 bg-gradient-to-r to-color_3 via-color_2 from-color_1 shadow-color_1/20 dark:shadow-lg dark:shadow-color_1/80 border-t border-gray-200 text-xs text-gray-200 dark:text-gray-400 text-center">
             <?php if (ENVIRONMENT === 'development') : ?>
                 <div class="bg-stone-700 text-red-500 p-2">
                     <p>Página renderizada em {elapsed_time} segundos usando {memory_usage} MB de memória. - Ambiente: <?= ENVIRONMENT ?></p>

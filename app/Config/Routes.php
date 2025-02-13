@@ -49,7 +49,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->POST('evento/save/(:num)', [EventoController::class, 'save']);
     $routes->POST('evento/save/', [EventoController::class, 'save']);
 
-    $routes->GET('checkin', [CheckInController::class, 'index']);
+    $routes->GET('checkin', [CheckInController::class, 'checkin']);
     $routes->POST('checkin/save', [CheckInController::class, 'save']);
 
     $routes->GET('dash', [Home::class, 'dash']);
@@ -63,7 +63,6 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->GET('nafudakake', [NafudakakeController::class, 'index']);
 
     $routes->GET('financeiro', [FinanceiroController::class, 'index']);
-
     $routes->GET('doacoes', [FinanceiroController::class, 'doacao']);
 
     $routes->GET('tipo_pagamento', [TipoPagamentoController::class, 'index']);

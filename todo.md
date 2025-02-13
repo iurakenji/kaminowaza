@@ -5,7 +5,6 @@
 - [x] Criar tela de usuários
   - [ ] Revisão de Model Usuários
   - [ ] Recuperação de Senha
-  - [ ] Criar tela "Endereços"
 
 ### TREINOS E EVENTOS
 
@@ -28,6 +27,9 @@
 - [x] Criar tela "Requisitos"
   - [ ] Criar tela "Checklist de Requisitos para Graduação"
 - [ ] Registro de Exames de Faixa
+- [ ] Criar visualização blog-like, para os últimos treinos e eventos
+  - [ ] Adicionar vídeo de cada evento
+  - [ ] Verificar possibilidade de integrar com postagens do instagram
 
 ### FINANCEIRO
 
@@ -60,3 +62,4 @@
 
 - [ ] Componentizar estruturas de frontend
 - [ ] Rever validação campos
+- [ ] Implementar tela de configuração de tema

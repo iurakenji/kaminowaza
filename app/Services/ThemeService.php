@@ -39,8 +39,20 @@ class ThemeService
 
     public function getTheme()
     {
-        $theme = getenv('LOCATION') ?? 'dojo';
-        $theme = $this->themes[$theme] ?? $this->themes['dojo'];
+        // $theme = getenv('LOCATION') ?? 'dojo';
+        // return $this->themes[$theme];
+
+        $themeModel = model('App\Models\ThemeModel');
+        $theme = $themeModel->where('selected', 1)->first();
+        $theme['icon'] = base_url() . $theme['icon'];
+        $theme['theme_css'] = "
+                            :root {
+                                --color_1: {$theme['color_1']};
+                                --color_2: {$theme['color_2']};
+                                --color_3: {$theme['color_3']};
+                            }
+                        ";
         return $theme;
+
     }
 }

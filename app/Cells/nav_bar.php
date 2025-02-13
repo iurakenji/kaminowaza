@@ -1,4 +1,4 @@
-<nav class="<?= esc($theme['colors']) ?> <?= $theme['colors'] ?> shadow-lg dark:shadow-lg fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+<nav class="bg-gradient-to-r to-color_3 via-color_2 from-color_1 shadow-color_1/20 dark:shadow-lg dark:shadow-color_1/80 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3">
             <img loading="lazy" decoding="async" src="<?= $theme['logo'] ?>" 

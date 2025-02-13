@@ -10,7 +10,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class CheckInController extends BaseController
 {
-    public function index()
+    public function checkin()
     {
         $ocorrenciaModel = model(OcorrenciaModel::class);
         $checkInModel = model(CheckInModel::class);
