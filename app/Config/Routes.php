@@ -5,6 +5,7 @@ use App\Controllers\AuthController;
 use App\Controllers\UserController;
 use App\Controllers\LocalController;
 use App\Controllers\NormaController;
+use App\Controllers\ThemeController;
 use App\Controllers\AgendaController;
 use App\Controllers\ConfigController;
 use App\Controllers\EventoController;
@@ -41,6 +42,14 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->GET('treino/delete/(:num)', [TreinoController::class, 'delete']);
     $routes->POST('treino/save/(:num)', [TreinoController::class, 'save']);
     $routes->POST('treino/save/', [TreinoController::class, 'save']);
+
+    $routes->GET('theme', [ThemeController::class, 'index']);
+    $routes->GET('theme/create', [ThemeController::class, 'create']);
+    $routes->GET('theme/edit/(:num)', [ThemeController::class, 'edit']);
+    $routes->GET('theme/delete/(:num)', [ThemeController::class, 'delete']);
+    $routes->POST('theme/save/(:num)', [ThemeController::class, 'save']);
+    $routes->POST('theme/save/', [ThemeController::class, 'save']);
+    $routes->POST('theme/select/(:num)', [ThemeController::class, 'select']);
 
     $routes->GET('evento', [EventoController::class, 'index']);
     $routes->GET('evento/create', [EventoController::class, 'create']);

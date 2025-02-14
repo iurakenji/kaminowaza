@@ -51,6 +51,7 @@ class UserController extends BaseController
         if ($request->getMethod() === 'POST') {
             $data = $request->getPost();
         }
+
         $isEdit = isset($id);
         unset($data['submit']);
         $graduacaoModel = model(GraduacaoModel::class);
