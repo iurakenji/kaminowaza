@@ -18,7 +18,12 @@ class ThemeModel extends Model
         'color_1',
         'color_2',
         'color_3',
-        'selected'
+        'selected',
+        'background_color',
+        'button_color',
+        'font_color',
+        'logo',
+        'icon',
     ];
 
     protected bool $allowEmptyInserts = false;

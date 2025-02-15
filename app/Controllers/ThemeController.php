@@ -46,7 +46,7 @@ class ThemeController extends BaseController
         $isEdit = isset($id);
         unset($data['submit']);
         $rules = [
-            'nome' => 'required',
+            'name' => 'required',
         ];
         $validation->setRules($rules);
         $validation->run($data);
@@ -110,9 +110,9 @@ class ThemeController extends BaseController
     public function select($id): RedirectResponse
     {
         $themeModel = model(ThemeModel::class);
-        $themeModel->update([], ['selected' => 0]);
-        $theme = $themeModel->where('selected', 1)->first();
+        $themeModel->update($themeModel->where('selected', 1)->first(), ['selected' => 0]);
+        $theme = $themeModel->where('id', $id)->first();
         $themeModel->update($theme['id'], ['selected' => 1]);
-        return redirect()->to('/theme')->with('success', 'theme excluida com sucesso!');
+        return redirect()->to('/theme')->with('success', 'Tema alterado para ' . $theme['name']);
     }
 }

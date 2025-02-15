@@ -17,7 +17,7 @@
             <tbody>
                 <?php foreach ($eventos as $evento) : ?>
                     <?php $now = new DateTime() ?>
-                <?php $isDisabled = (new DateTime($evento['inicio'])) < $now || (new DateTime($evento['termino'])) < $now ?>
+                <?php $isDisabled = (new DateTime($evento['inicio'])) < $now && (new DateTime($evento['termino'])) < $now ?>
                     <tr>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><?= $evento['titulo'] ?> </td>
                         <td class="px-6 py-4 text-center"><?= date('d/m/Y H:i', strtotime($evento['inicio'])) ?> (<?= WEEKDAYS[date('w', strtotime($evento['inicio']))] ?>)</td>

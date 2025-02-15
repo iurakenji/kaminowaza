@@ -1,4 +1,5 @@
 <?= $this->extend('layouts/main'); ?>
+<?php helper('form'); ?>
 <?php $this->section('content'); ?>
 <div class="flex flex-col">
     <div class="flex flex-col justify-end mx-4">       
@@ -22,7 +23,7 @@
                 <?php foreach ($themes as $theme) : ?>
                     <tr>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <input id="select_<?= $theme['id'] ?>" type="checkbox" class="rounded" <?= $theme['selected'] ? 'checked' : '' ?> onclick="toggleThemeSelect(<?= $theme['id'] ?>)">
+                            <input id="select" data-id="<?= $theme['id'] ?>" type="checkbox" class="rounded" <?= $theme['selected'] ? 'checked' : '' ?> onclick="toggleThemeSelect(<?= $theme['id'] ?>)">
                         </td>
                         <td class="px-6 py-4 text-center"><?= $theme['name'] ?></td>
                         <td class="px-6 py-4 text-center"><?= $theme['color_1'] ?></td>
@@ -41,15 +42,28 @@
 
 <script>
     function toggleThemeSelect(id) {
-        fetch(`/theme/select/${id}`, { method: 'POST' })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
+    const csrfToken = document.querySelector('meta[name="X-CSRF-TOKEN"]').content;
+    fetch(`/theme/select/${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+            if (data.success) {
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                document.querySelector(`input[data-id="${id}"]`).checked = true;
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    window.location.reload();
+}
 </script>
 
 <?php $this->endSection(); ?>

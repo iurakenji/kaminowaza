@@ -31,6 +31,10 @@
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="button_color">Cor dos Botões</label>
                 <?= form_input("button_color", isset($theme["button_color"]) ? "{$theme["button_color"]}" : old("button_color", ''), ["class" => "form-control form-control-sm", "id" => "button_color"], 'color'); ?>
             </div>
+            <div class="flex flex-col">
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="font_color">Cor da Fonte</label>
+                <?= form_input("font_color", isset($theme["font_color"]) ? "{$theme["font_color"]}" : old("font_color", ''), ["class" => "form-control form-control-sm", "id" => "font_color"], 'color'); ?>
+            </div>
 
             <div class="flex flex-col mt-3" x-data="logoUploader">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Logotipo</label>

@@ -5,11 +5,13 @@
 - [x] Criar tela de usuários
   - [ ] Revisão de Model Usuários
   - [ ] Recuperação de Senha
+  - [ ] Possibilidade Inserir Foto Direto da Camera
 
 ### TREINOS E EVENTOS
 
 - [x] Criar tela de eventos
-  - [ ] Rever lógica para alteração dos eventos visualizados
+  - [X] Rever lógica para alteração dos eventos visualizados
+  - [ ] Adicionar mapa na edição do evento
 - [x] Criar tela de Treinos
   - [ ] Finalizar verificação de conflitos eventos x treinos
   - [x] Criar sistema de Checkin

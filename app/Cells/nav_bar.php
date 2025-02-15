@@ -1,7 +1,7 @@
 <nav class="bg-gradient-to-r to-color_3 via-color_2 from-color_1 shadow-color_1/20 dark:shadow-lg dark:shadow-color_1/80 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3">
-            <img loading="lazy" decoding="async" src="<?= $theme['logo'] ?>" 
+            <img loading="lazy" decoding="async" src="<?= base_url( 'images/themes/' . $theme['logo']) ?>" 
             class="h-12 sm:h-16" alt="Logo">
         </a>        
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-2" id="navbar-user">
@@ -33,12 +33,12 @@
                 </li>
                 <?php if ($user['tipo'] == 'admin' || $user['tipo'] == 'professor') : ?>
                 <li>
-                    <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                    <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 px-3 text-font_color hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                         Administrativo
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
                     </button>
                     <div id="dropdownNavbar" class="z-10 hidden bg-gray-50 font-normal divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
+                        <ul class="py-2 text-sm text-font_color " aria-labelledby="dropdownLargeButton">
                             <li>
                                 <a href="/treino" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
                                     Treinos
@@ -85,7 +85,7 @@
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
                                 </button>
                                 <div id="financeiroDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="financeiroDropdownButton">
+                                    <ul class="py-2 text-sm text-font_color " aria-labelledby="financeiroDropdownButton">
                                     <li>
                                         <a href="/tipo_pagamento" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                                             Tipos de Pagamentos

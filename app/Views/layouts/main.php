@@ -9,13 +9,14 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="X-CSRF-TOKEN" content="<?= csrf_hash() ?>">
         <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <title><?= $this->renderSection('title') ?></title>
         <link href="<?=base_url()?>css/output.css?v=1.0" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="shortcut icon" href="<?=$theme['icon']?>" type="image/x-icon">
+        <link rel="shortcut icon" href="<?= base_url( 'images/themes/'.$theme['icon']) ?>" type="image/x-icon">
         <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Shippori+Mincho+B1&display=swap" rel="stylesheet">
         <link href="<?=base_url()?>css/extra-styles.css" rel="stylesheet">
         <title>Kaminowaza Dojo</title>
@@ -74,7 +75,7 @@
             </div>
 
             <div class="h-auto">
-                <h1 class="mx-10 mt-2 mb-4 pb-3 text-4xl leading-none tracking-tight border-b-2 border-gray-400 text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><?=isset($title) ? $title : ''?></h1>
+                <h1 class="mx-10 mt-2 mb-4 pb-3 text-4xl leading-none tracking-tight border-b-2 border-gray-400 text-font_color md:text-3xl lg:text-3xl"><?=isset($title) ? $title : ''?></h1>
                 <div class="flex flex-col">
                     <?= $this->renderSection('content') ?>
                 </div>
