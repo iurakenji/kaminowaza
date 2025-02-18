@@ -55,17 +55,14 @@ class CheckInController extends BaseController
         unset($data['latitude']);
         $coord['lon'] = $data['longitude'];
         unset($data['longitude']);
-        
-        $locationChecked = \Config\Services::location()->checkLocation($data['ocorrencia_id'], $coord);
 
-        if (!$locationChecked) {
-            return redirect()->back()->withInput()->with('error', 'Localização fora do permitido para o evento.');
-        }
         $checkExist = $checkInModel->select('*')->where('ocorrencia_id', $data['ocorrencia_id'])->where('user_id', $user['id'])->first();
+
         if (!empty($checkExist)) {
             return redirect()->back()->withInput()->with('error', 'Você já realizou um check-in neste evento.');
         }
         $checkInModel->insert($data);
+
         return redirect()->to('/checkin')->with('success', 'Check in realizado com sucesso!');
     }
 

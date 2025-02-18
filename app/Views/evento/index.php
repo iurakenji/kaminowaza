@@ -24,7 +24,7 @@
                         <td class="px-6 py-4 text-center"><?= date('d/m/Y H:i', strtotime($evento['termino'])) ?> (<?= WEEKDAYS[date('w', strtotime($evento['termino']))] ?>)</td>
                         <td class="px-6 py-4 text-center"><?= ucwords($evento['tipo']) ?></td>
                         <td class="px-6 py-4 text-center">
-                            <a class="me-2 text-blue-900 hover:text-blue-600" href="<?=$isDisabled == true ? '#' : '/evento/edit/'.$evento['id'] ?>">Editar</a> | 
+                            <a class="me-2 text-blue-900 hover:text-blue-600" href="<?= !$isDisabled ? '#' : '/evento/edit/'.$evento['id'] ?>">Editar</a> | 
                             <a <?= $isDisabled ? '' : 'data-modal-target="popup-confirm" data-modal-toggle="popup-confirm"' ?> class="<?= $isDisabled ? '' : 'delete_button' ?> me-2 text-red-900 hover:text-red-600" href="<?= $isDisabled ? '#' : '/evento/delete/'.$evento['id'] ?>"> Excluir</a>
                         </td>
                     </tr>

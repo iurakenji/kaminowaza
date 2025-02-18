@@ -59,7 +59,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->POST('evento/save/', [EventoController::class, 'save']);
 
     $routes->GET('checkin', [CheckInController::class, 'checkin']);
-    $routes->POST('checkin/save', [CheckInController::class, 'save']);
+    $routes->match(['GET', 'POST'], 'checkin/save', [CheckInController::class, 'save']);
 
     $routes->GET('dash', [Home::class, 'dash']);
 

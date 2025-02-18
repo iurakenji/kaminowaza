@@ -1,8 +1,9 @@
 document.addEventListener('alpine:init', () => {
     Alpine.data('checkinHandler', () => ({
-        locais: window.locais,
-        ocorrencias: window.ocorrencias,
-        checkins: window.checkins,
+        validado: true,
+        locais: window.locais || [],
+        ocorrencias: window.ocorrencias || [],
+        checkins: window.checkins || [],
         filteredOcorrencias: [],
         selectedOcorrencia: null,
         coordenadas: { latitude: null, longitude: null },
@@ -30,8 +31,7 @@ document.addEventListener('alpine:init', () => {
                         console.error('Erro ao obter localização:', error);
                         this.verifyingLocation = false;
                         this.initMap();
-                    },
-                    { enableHighAccuracy: true }
+                    }
                 );
             } else {
                 console.error('Geolocalização não suportada.');
@@ -41,7 +41,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         checkEmptyEvents() {
-            if (this.filteredOcorrencias.length === 0) {
+            if (!this.filteredOcorrencias || this.filteredOcorrencias.length === 0) {
                 this.$dispatch('show-alert', {
                     type: 'info',
                     message: 'Sem eventos disponíveis hoje.'
@@ -77,9 +77,10 @@ document.addEventListener('alpine:init', () => {
             if (distance <= local.raio) {
                 this.$el.submit();
             } else {
+                this.validado = false;
                 this.$dispatch('open-confirm-modal', {
-                    href:  window.url_to,
-                    message: 'A sua localização não pode ser validada como estando dentro do máximo permitido para check-in. Sua presença será confirmada pelo Sensei responsável posteriormente. Deseja continuar?'
+                    message: 'A sua localização não pode ser validada como estando dentro do máximo permitido para check-in. Sua presença será confirmada pelo Sensei responsável posteriormente. Deseja continuar?',
+                    onConfirm: () => this.$el.submit()
                 });
             }
         },
@@ -120,10 +121,10 @@ document.addEventListener('alpine:init', () => {
                     this.map.removeLayer(layer);
                 }
             });
-
+        
             for (const ocorrencia of this.ocorrencias) {
                 const local = this.locais[ocorrencia.local_id];
-
+        
                 if (local) {
                     const distance = this.getDistance(
                         local.latitude, 
@@ -131,10 +132,11 @@ document.addEventListener('alpine:init', () => {
                         this.coordenadas.latitude, 
                         this.coordenadas.longitude
                     );
-
-                    const isCheckedIn = this.checkins.some(checkin => checkin.ocorrencia_id === ocorrencia.id);
-                    const baseColor = isCheckedIn ? 'black' : ((distance <= local.raio) ? 'green' : 'red');
-
+        
+                    const isCheckedIn = this.checkins.includes(ocorrencia.id);
+        
+                    let baseColor = isCheckedIn ? 'gold' : ((distance <= local.raio) ? 'green' : 'red');
+        
                     const marker = L.marker(
                         [local.latitude, local.longitude],
                         {
@@ -147,12 +149,24 @@ document.addEventListener('alpine:init', () => {
                             }),
                         }
                     );
-
-                    marker.bindPopup(`<b>${ocorrencia.titulo}</b> - Distância: ${Math.round(distance * 10) / 10} metros`);
-
+        
+                    const popupText = isCheckedIn 
+                        ? `<b>${ocorrencia.titulo}</b> - Checkin já realizado`
+                        : `<b>${ocorrencia.titulo}</b> - Distância: ${Math.round(distance * 10) / 10} metros`;
+        
+                    marker.bindPopup(popupText);
+        
                     marker.on('click', () => {
+                        if(isCheckedIn) {
+                            this.$dispatch('show-alert', {
+                                type: 'info',
+                                message: 'Checkin já realizado para este evento.'
+                            });
+                            return;
+                        }
+        
                         this.selectedOcorrencia = ocorrencia.id;
-
+        
                         marker.setIcon(L.icon({
                             iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png`,
                             iconSize: [25, 41],
@@ -160,10 +174,12 @@ document.addEventListener('alpine:init', () => {
                             popupAnchor: [1, -34],
                             shadowSize: [41, 41],
                         }));
-
+        
                         this.map.eachLayer(layer => {
                             if (layer instanceof L.Marker && layer !== marker && layer !== this.userMarker) {
-                                const resetColor = this.checkins.some(checkin => checkin.ocorrencia_id === ocorrencia.id) ? 'darkgreen' : ((distance <= local.raio) ? 'green' : 'red');
+                                const resetColor = this.checkins.includes(ocorrencia.id)
+                                    ? 'yellow'
+                                    : ((distance <= local.raio) ? 'green' : 'red');
                                 layer.setIcon(L.icon({
                                     iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${resetColor}.png`,
                                     iconSize: [25, 41],
@@ -174,13 +190,13 @@ document.addEventListener('alpine:init', () => {
                             }
                         });
                     });
-
+        
                     marker.addTo(this.map);
                 } else {
                     console.warn(`Local com id ${ocorrencia.local_id} não encontrado para a ocorrência ${ocorrencia.nome}`);
                 }
             }
-        },
+        },        
 
         adjustMapToEvent() {
             if (!this.selectedOcorrencia) return;

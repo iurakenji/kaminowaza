@@ -9,6 +9,7 @@
 
 ### TREINOS E EVENTOS
 
+- [ ] Adicionar campo de carga horária de treinos e eventos
 - [x] Criar tela de eventos
   - [X] Rever lógica para alteração dos eventos visualizados
   - [ ] Adicionar mapa na edição do evento
@@ -16,6 +17,7 @@
   - [ ] Finalizar verificação de conflitos eventos x treinos
   - [x] Criar sistema de Checkin
   - [ ] Registro de presença manual
+  - [ ] Adicionar tela de confirmação de checkin
   - [x] Ajustar tabelas eventos, treinos e ocorrencias para comportar localização
   - [ ] Permissão nas aulas de acordo com graduação, adimplência, etc
 - [x] Criar sistema de verificação de localização no Checkin

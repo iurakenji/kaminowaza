@@ -10,7 +10,7 @@
 <body class="min-h-screen bg-gradient-to-r to-color_3 via-color_2 from-color_1 shadow-color_1/20 dark:shadow-lg dark:shadow-color_1/80 flex items-center justify-center p-6">
     <div class="w-full max-w-md rounded-lg overflow-hidden">
         <div class="flex justify-center mt-4 bg-gradient-to-r to-color_3 via-color_2 from-color_1 shadow-color_1/20 dark:shadow-lg dark:shadow-color_1/80">
-                <img loading="lazy" decoding="async" src="<?= $theme['logo'] ?>" 
+                <img loading="lazy" decoding="async" src="<?= base_url( 'images/themes/' . $theme['logo']) ?>" 
                     class="h-16" alt="Logo">
         </div>
         <div class="p-6">

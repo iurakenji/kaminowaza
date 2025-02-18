@@ -1,16 +1,16 @@
-<?= $this->extend('layouts/main');
-    helper('form');
-    helper('html');
-    $this->section('content'); 
-?>
+<?= $this->extend('layouts/main'); ?>
+<?php helper('form'); ?>
+<?php helper('html'); ?>
+<?php $this->section('content'); ?>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 <script>
     window.locais = <?= json_encode($locais); ?>;
     window.ocorrencias = <?= json_encode($ocorrencias); ?>;
     window.checkins = <?= json_encode($checkins); ?>;
-    window.url_to = <?= url_to('checkin/save') ?>;
+    window.url_to = '<?= url_to('checkin/save') ?>';
 </script>
 
 <div x-data="checkinHandler()" x-init="checkCurrentLocation(); checkEmptyEvents()">
@@ -26,20 +26,26 @@
     </div>
     <div>
         <div class="w-auto mx-4">
-            <span x-show="filteredOcorrencias.length !== 0">Selecione para qual evento deseja fazer checkin:</span>
+            <span x-show="filteredOcorrencias && filteredOcorrencias.length !== 0">Selecione para qual evento deseja fazer checkin:</span>
             <form action="<?= url_to('checkin/save') ?>" method="post" @submit.prevent="handleCheckin">
                 <input type="hidden" name="latitude" :value="coordenadas.latitude">
                 <input type="hidden" name="longitude" :value="coordenadas.longitude">
+                <input type="hidden" name="ocorrencia_id" :value="selectedOcorrencia">
+                <input type="hidden" name="validado" x-model="validado">
                 <div class="flex flex-col mt-3">
-                    <select x-model="selectedOcorrencia" @change="adjustMapToEvent()" name="ocorrencia_id" id="ocorrencia_id" required :disabled="filteredOcorrencias.length === 0" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select x-model="selectedOcorrencia" @change="adjustMapToEvent()" name="ocorrencia_id" id="ocorrencia_id" required :disabled="!filteredOcorrencias || filteredOcorrencias.length === 0" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="">Selecione...</option>
                         <template x-for="(ocorrencia, index) in filteredOcorrencias" :key="index">
-                            <option :value="ocorrencia.id" x-text="ocorrencia.titulo"></option>
+                            <option 
+                                :value="ocorrencia.id"
+                                :disabled="checkins.includes(ocorrencia.id)"
+                                x-text="checkins.includes(ocorrencia.id) ? ocorrencia.titulo + ' (checkin já realizado)' : ocorrencia.titulo">
+                            </option>
                         </template>
-                        <option x-show="filteredOcorrencias.length === 0" value="">Sem eventos disponíveis</option>
+                        <option x-show="!filteredOcorrencias || filteredOcorrencias.length === 0" value="">Sem eventos disponíveis</option>
                     </select>
                 </div>
-                <div x-show="filteredOcorrencias.length !== 0" class="flex justify-end mx-4 mt-3">
+                <div x-show="filteredOcorrencias && filteredOcorrencias.length !== 0" class="flex justify-end mx-4 mt-3">
                     <button type="submit" class="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Check In</button>
                 </div>
             </form>
