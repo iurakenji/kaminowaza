@@ -76,6 +76,7 @@
                 <?= form_upload('image_path', '', ['id' => 'imageUpload', 'class' => 'hidden', 'x-ref' => 'fileInput', '@change' => 'handleFile']); ?>
 
                 <button type="button" class="mt-2 p-2 bg-gray-200 rounded text-sm" @click="$refs.fileInput.click()">Escolher Arquivo</button>
+                <button type="button" class="mt-2 p-2 bg-gray-200 rounded text-sm" @click="captureImage">Capturar com a Câmera</button>
             </div>
 
             <div class="flex justify-end mt-3">
@@ -121,6 +122,63 @@ document.addEventListener('alpine:init', () => {
             const dataTransfer = new DataTransfer();
             dataTransfer.items.add(file);
             this.$refs.fileInput.files = dataTransfer.files;
+        },
+        async captureImage() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+                modal.style.zIndex = '1000';
+
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+
+                const captureButton = document.createElement('button');
+                captureButton.textContent = 'Capturar';
+                captureButton.style.position = 'absolute';
+                captureButton.style.bottom = '20px';
+                captureButton.style.padding = '10px 20px';
+                captureButton.style.backgroundColor = '#4CAF50';
+                captureButton.style.color = 'white';
+                captureButton.style.border = 'none';
+                captureButton.style.borderRadius = '5px';
+                captureButton.style.cursor = 'pointer';
+
+                captureButton.onclick = () => {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                    canvas.toBlob(blob => {
+                        const file = new File([blob], 'captured-image.png', { type: 'image/png' });
+                        this.previewImage(file);
+                        this.setFileInput(file);
+
+                        modal.remove();
+                        stream.getTracks().forEach(track => track.stop());
+                    }, 'image/png');
+                };
+
+                modal.appendChild(video);
+                modal.appendChild(captureButton);
+                document.body.appendChild(modal);
+            } catch (error) {
+                console.error('Erro ao acessar a câmera:', error);
+                alert('Não foi possível acessar a câmera. Verifique as permissões do navegador.');
+            }
         }
     }));
 });

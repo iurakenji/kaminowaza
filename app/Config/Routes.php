@@ -20,6 +20,7 @@ use App\Controllers\NafudakakeController;
 use App\Controllers\RelatoriosController;
 use App\Controllers\TrajetoriaController;
 use App\Controllers\TipoPagamentoController;
+use App\Controllers\RegistroPagamentoController;
 
 /**
  * @var RouteCollection $routes
@@ -87,6 +88,14 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->GET('pagamento/delete/(:num)', [PagamentoController::class, 'delete']);
     $routes->POST('pagamento/save/(:num)', [PagamentoController::class, 'save']);
     $routes->POST('pagamento/save/', [PagamentoController::class, 'save']);
+
+    $routes->GET('registroPagamento', [RegistroPagamentoController::class, 'index']);    
+    $routes->GET('registroPagamento/create', [RegistroPagamentoController::class, 'create']);
+    $routes->GET('registroPagamento/edit/(:num)', [RegistroPagamentoController::class, 'edit']);
+    $routes->GET('registroPagamento/delete/(:num)', [RegistroPagamentoController::class, 'delete']);
+    $routes->POST('registroPagamento/save/(:num)', [RegistroPagamentoController::class, 'save']);
+    $routes->POST('registroPagamento/save/', [RegistroPagamentoController::class, 'save']);
+    $routes->GET('registroPagamento/historico', [RegistroPagamentoController::class, 'historico']);
 
     $routes->GET('norma', [NormaController::class, 'index']);
     $routes->GET('norma/list', [NormaController::class, 'list']);

@@ -11,8 +11,12 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 
 class UserController extends BaseController
 {
-    public function index(): string
+    public function index(): mixed
     {
+        $user = \Config\Services::auth()->user();
+        if ($user['tipo'] == 'aluno') {
+            return redirect()->to(base_url('/user/edit/' . $user['id']))->send();
+        }
         $userModel = model(UserModel::class);
         $data['title'] = 'Usuários';
         $data['users'] = $userModel->findAll();

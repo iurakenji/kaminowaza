@@ -49,14 +49,6 @@ class CheckInModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    const TRAJETORIA_ICONS = [
-        'treinos' => 'training',
-        'exame' => 'belt',
-        'evento' => 'ponto',
-        'seminario' => 'seminar',
-        'outro' => 'belt'
-    ];
-
     public function getTrajetoria($userId) 
     {
         $userModel = model(UserModel::class);
@@ -96,21 +88,26 @@ class CheckInModel extends Model
                 }
 
                 if ($ocorrencia && $ocorrencia['tipo'] === 'evento') {
+                    $evento = array_filter($eventos, function ($e) use ($ocorrencia) {
+                        return $e['id'] === $ocorrencia['referencia_id'];
+                    });
+                    $evento = reset($evento);
 
                     if ($aulasEntreEventos > 0) {
                         $trajetoria[] = [
                             'title' => 'Treinos Regulares',
                             'event' => "{$aulasEntreEventos} Aulas",
-                            'icon' => self::TRAJETORIA_ICONS['treinos'],
+                            'icon' => 'training',
                         ];
                         $aulasEntreEventos = 0;
                     }
 
                     if ($ocorrencia) {
+                        $icon = is_array($evento) && isset($evento['tipo']) ? $evento['tipo'] : 'outro';
                         $trajetoria[] = [
                             'title' => $ocorrencia['titulo'],
                             'event' => date('d/m/Y', strtotime($ocorrencia['inicio'])),
-                            'icon' => self::TRAJETORIA_ICONS[$ocorrencia['tipo']],
+                            'icon'  => $icon,
                         ];
                     }
 
