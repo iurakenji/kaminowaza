@@ -15,6 +15,7 @@
   - [ ] Adicionar mapa na edição do evento
 - [x] Criar tela de Treinos
   - [ ] Finalizar verificação de conflitos eventos x treinos
+  - [ ] Alterar a tela de eventos e treinos para trazer já as ocorrências que possam gerar conflito e fazer a verificação no frontend, impedindo de que seja selecionado um horário com conflito
   - [x] Criar sistema de Checkin
   - [ ] Registro de presença manual
   - [ ] Adicionar tela de confirmação de checkin
@@ -56,6 +57,7 @@
 - [x] Criar tela "Nafudakake"
   - [ ] Melhorar layout
 - [ ] Implementar Sistema de Avisos e Mensageria
+- [ ] Ajustar cor dos botões em gradiente
 
 ### RELATÓRIOS
 

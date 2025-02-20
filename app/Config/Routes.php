@@ -95,7 +95,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->GET('registroPagamento/delete/(:num)', [RegistroPagamentoController::class, 'delete']);
     $routes->POST('registroPagamento/save/(:num)', [RegistroPagamentoController::class, 'save']);
     $routes->POST('registroPagamento/save/', [RegistroPagamentoController::class, 'save']);
-    $routes->GET('registroPagamento/historico', [RegistroPagamentoController::class, 'historico']);
+    $routes->GET('registroPagamento/historico', [RegistroPagamentoController::class, 'list']);
 
     $routes->GET('norma', [NormaController::class, 'index']);
     $routes->GET('norma/list', [NormaController::class, 'list']);

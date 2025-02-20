@@ -6,13 +6,26 @@ use CodeIgniter\Model;
 
 class RegistroPagamentoModel extends Model
 {
-    protected $table            = 'registropagamentos';
+    protected $table            = 'registro_pagamentos';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id',
+        'pagamento_id',
+        'user_id',
+        'data_pagamento',
+        'valor_pago',
+        'comprovante',
+        'status',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'updated_by',
+        'deleted_by',
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
